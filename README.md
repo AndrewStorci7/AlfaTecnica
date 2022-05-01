@@ -13,4 +13,5 @@ Se io clicco col mouse su un estintore, esso mi deve reindirizzare alla pagina d
 # PRENDERE SPUNTO
 [Canvas relative position on zooming](https://konvajs.org/docs/sandbox/Zooming_Relative_To_Pointer.html)<br>
 [Contenxt Menu on Mouse R click](https://konvajs.org/docs/sandbox/Canvas_Context_Menu.html)<br>
-[Relative position on the canvas](https://konvajs.org/docs/sandbox/Relative_Pointer_Position.html)
+[Relative position on the canvas](https://konvajs.org/docs/sandbox/Relative_Pointer_Position.html)<br>
+[Save the canvas as a PDF (jsPDF library)](https://konvajs.org/docs/sandbox/Canvas_to_PDF.html#Do-you-want-to-save-Konva-stage-into-a-PDF-file)
