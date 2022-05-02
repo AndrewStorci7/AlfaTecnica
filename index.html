@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Prova 1</title>
+    <script src="https://unpkg.com/konva@8.3.5/konva.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/javascript">
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+
+      var layer = new Konva.Layer({
+        scaleX: 1,
+        scaleY: 1
+      });
+      stage.add(layer);
+
+      var group = new Konva.Group({
+        scaleX: 1
+      });
+      layer.add(group);
+
+      var imageObj = new Image();
+      imageObj.src = 'estintore.jpg';
+      stage.on('click', function(){
+        var pos = group.getRelativePointerPosition();
+        var image = new Konva.Image({
+          x: pos.x,
+          y: pos.y,
+          image: imageObj,
+          width: 100,
+          height: 100
+        });
+        group.add(image);
+      });
+
+    </script>
+
+  </body>
+</html>
