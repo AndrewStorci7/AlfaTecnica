@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Prova 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://unpkg.com/konva@8.3.5/konva.min.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  </head>
+  <style media="screen">
+    .prova{
+      height: 800px;
+      background-image: url('download.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      border: 2px solid black;
+    }
+    #menu {
+      display: none;
+      position: absolute;
+      width: 100px;
+      background-color: white;
+      box-shadow: 0 0 5px grey;
+      border-radius: 3px;
+    }
+    #menu button {
+      width: 100%;
+      background-color: white;
+      border: none;
+      margin: 0;
+      padding: 10px;
+    }
+    #menu button:hover {
+      background-color: lightgray;
+    }
+    #button{
+      text-align: right;
+
+    }
+  </style>
+  <body>
+    <div class="container prova" id="planimetria"></div>
+    <div id="menu">
+      <div>
+        <button id="pulse-button">Visualizza</button
+        ><button id="delete-button">Elimina</button>
+      </div>
+    </div>
+    <div class="container">
+      <button type="button" name="addObj" id="button">Aggiungi prodotto</button>
+      <select class="select" name="tipoProdotto" id="select">
+        <option value="0" id="nullo">Scegli un prodotto</option>
+        <option value="estintore" id="estintore">Estintori</option>
+        <option value="sedia" id="sedia">Sedia</option>
+        <option value="tavolo" id="tavolo">Tavolo</option>
+      </select>
+    </div>
+
+    <script type="text/javascript">
+      var src = "";
+      var imageObj = new Image();
+      $('#select').change(function(){
+        src = $("#select option:selected").val();
+        imageObj.src = src + ".png";
+      });
+      var div = document.getElementById('planimetria');
+      var stage = new Konva.Stage({
+        container: 'planimetria',
+        width: div.clientWidth,
+        height: div.clientHeight
+      });
+
+      var layer = new Konva.Layer({
+        scaleX: 1,
+        scaleY: 1
+      });
+      stage.add(layer);
+      /*var layerTavoli = new Konva.Layer({
+        scaleX: 1,
+        scaleY: 1
+      });
+      stage.add(layerTavoli);
+      var layerSedie = new Konva.Layer({
+        scaleX: 1,
+        scaleY: 1
+      });
+      stage.add(layerSedie);
+      var layerEst = new Konva.Layer({
+        scaleX: 1,
+        scaleY: 1
+      });
+      stage.add(layerEst);*/
+
+      var group = new Konva.Group({
+        scaleX: 1
+      });
+      layer.add(group);
+      /*var groupSedie = new Konva.Group({
+        scaleX: 1
+      });
+      layerSedie.add(groupSedie);
+      var groupEstintori = new Konva.Group({
+        scaleX: 1
+      });
+      layerEst.add(groupEstintori);
+      var groupTavoli = new Konva.Group({
+        scaleX: 1
+      });
+      layerTavoli.add(groupTavoli);*/
+
+      let currentShape;
+      var menuNode = document.getElementById('menu');
+      document.getElementById('pulse-button').addEventListener('rightClick, click', () => {
+        currentShape.to({
+          scaleX: 2,
+          scaleY: 2,
+          onFinish: () => {
+            currentShape.to({ scaleX: 1, scaleY: 1 });
+          },
+        });
+      });
+
+      document.getElementById('delete-button').addEventListener('click', () => {
+        currentShape.destroy();
+      });
+      window.addEventListener('click', () => {
+        menuNode.style.display = 'none';
+      });
+
+      stage.on('contextmenu', function (e) {
+        e.evt.preventDefault();
+        if (e.target === stage)
+          return;
+        currentShape = e.target;
+        menuNode.style.display = 'initial';
+        var containerRect = stage.container().getBoundingClientRect();
+        menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
+        menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
+      });
+
+      var count = 0;
+      var arr = new Array();
+      //$('#button').click(function(){
+        //$('#button').css('background-color', 'red');
+        stage.on('dblclick', function(){
+          var pos = group.getRelativePointerPosition();
+          //count++;
+          //for(let i = 0; i < count; i++){
+            var image = new Konva.Image({
+              x: pos.x -20,
+              y: pos.y -20,
+              image: imageObj,
+              width: 50,
+              height: 50,
+              draggable: true
+            });
+            //arr[i] = image;
+          //}
+          group.add(image);
+          /*if(imageObj.src == 'estintori.png'){
+            groupEstintori.add(image);
+          } else if(imageObj.src == 'sedie.png'){
+            groupSedie.add(image);
+          } else if(imageObj.src == 'tavoli.png'){
+            groupTavoli.add(image);
+          }*/
+        });
+      //});
+    </script>
+
+  </body>
+</html>
