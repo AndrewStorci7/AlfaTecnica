@@ -59,10 +59,8 @@
 
     <script type="text/javascript">
       var src = "";
-      var imageObj = new Image();
       $('#select').change(function(){
         src = $("#select option:selected").val();
-        imageObj.src = src + ".png";
       });
       var div = document.getElementById('planimetria');
       var stage = new Konva.Stage({
@@ -76,38 +74,11 @@
         scaleY: 1
       });
       stage.add(layer);
-      /*var layerTavoli = new Konva.Layer({
-        scaleX: 1,
-        scaleY: 1
-      });
-      stage.add(layerTavoli);
-      var layerSedie = new Konva.Layer({
-        scaleX: 1,
-        scaleY: 1
-      });
-      stage.add(layerSedie);
-      var layerEst = new Konva.Layer({
-        scaleX: 1,
-        scaleY: 1
-      });
-      stage.add(layerEst);*/
 
       var group = new Konva.Group({
         scaleX: 1
       });
       layer.add(group);
-      /*var groupSedie = new Konva.Group({
-        scaleX: 1
-      });
-      layerSedie.add(groupSedie);
-      var groupEstintori = new Konva.Group({
-        scaleX: 1
-      });
-      layerEst.add(groupEstintori);
-      var groupTavoli = new Konva.Group({
-        scaleX: 1
-      });
-      layerTavoli.add(groupTavoli);*/
 
       let currentShape;
       var menuNode = document.getElementById('menu');
@@ -141,32 +112,20 @@
 
       var count = 0;
       var arr = new Array();
-      //$('#button').click(function(){
-        //$('#button').css('background-color', 'red');
-        stage.on('dblclick', function(){
-          var pos = group.getRelativePointerPosition();
-          //count++;
-          //for(let i = 0; i < count; i++){
-            var image = new Konva.Image({
-              x: pos.x -20,
-              y: pos.y -20,
-              image: imageObj,
-              width: 50,
-              height: 50,
-              draggable: true
-            });
-            //arr[i] = image;
-          //}
-          group.add(image);
-          /*if(imageObj.src == 'estintori.png'){
-            groupEstintori.add(image);
-          } else if(imageObj.src == 'sedie.png'){
-            groupSedie.add(image);
-          } else if(imageObj.src == 'tavoli.png'){
-            groupTavoli.add(image);
-          }*/
+      stage.on('dblclick', function(){
+        var pos = group.getRelativePointerPosition();
+        var imageObj = new Image();
+        imageObj.src = src + ".png";
+        var image = new Konva.Image({
+          x: pos.x -20,
+          y: pos.y -20,
+          image: imageObj,
+          width: 50,
+          height: 50,
+          draggable: true
         });
-      //});
+        group.add(image);
+      });
     </script>
 
   </body>
