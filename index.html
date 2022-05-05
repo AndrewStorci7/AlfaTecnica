@@ -60,11 +60,13 @@
     <script type="text/javascript">
       var src = "";
       var idProdotto = 0;
+      var count = 0;
+      var check = 0;
       var sfondo = new Image();
       sfondo.src = "img/download.png";
 
       $('#select').change(function(){
-        var check = $("#select option:selected").val();
+        check = $("#select option:selected").val();
         if(check == 1){
           idProdotto = 1;
           src = "img/estintore.png";
@@ -103,28 +105,28 @@
         scaleX: 1
       });
       layer.add(group);
-      var sonfoImg = new Konva.Image({
+      var sfondoImg = new Konva.Image({
         image: sfondo,
         width: div.clientWidth,
         height: div.clientHeight,
         draggable: false
       });
-      groupSfondo.add(sonfoImg);
+      groupSfondo.add(sfondoImg);
 
       let currentShape;
       var menuNode = document.getElementById('menu');
       document.getElementById('pulse-button').addEventListener('click', () => {
-        currentShape.to({
-          scaleX: 2,
-          scaleY: 2,
-          onFinish: () => {
-            currentShape.to({ scaleX: 1, scaleY: 1 });
-          },
-        });
+
       });
 
-      document.getElementById('delete-button').addEventListener('click', () => {
+      document.getElementById('delete-button').addEventListener('click', (idProd) => {
         currentShape.destroy();
+        $.post('deleteProduct.php', {idProd:idProd}, function(resp){
+          if(resp == 1)
+            alert('Prodotto eliminato');
+          else if(resp == 0)
+            alert('Prodotto non eliminato');
+        }, 'json');
       });
       window.addEventListener('click', () => {
         menuNode.style.display = 'none';
@@ -141,27 +143,30 @@
         menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
       });
 
-      var count = 0;
       var arr = new Array();
       stage.on('dblclick', function(){
-        var pos = group.getRelativePointerPosition();
-        var posX = parseFloat(pos.x -20);
-        var posY = parseFloat(pos.y -20);
-        var imageObj = new Image();
-        imageObj.src = src;
-        var image = new Konva.Image({
-          x: posX,
-          y: posY,
-          image: imageObj,
-          width: 50,
-          height: 50,
-          draggable: false
-        });
-        group.add(image);
-        alert(posX + " " + posY + " " + idProdotto);
-        $.post('addProduct.php', {posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
-          //alert('Prodotto aggiunto');
-        }, 'json');
+        if(!check == 0){
+          count++;
+          var pos = group.getRelativePointerPosition();
+          var posX = parseFloat(pos.x -20);
+          var posY = parseFloat(pos.y -20);
+          var imageObj = new Image();
+          imageObj.src = src;
+          var image = new Konva.Image({
+            x: posX,
+            y: posY,
+            image: imageObj,
+            width: 50,
+            height: 50,
+            draggable: false,
+            id: count
+          });
+          group.add(image);
+          alert(posX + " " + posY + " " + idProdotto);
+          $.post('addProduct.php', {posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
+            //alert('Prodotto aggiunto');
+          }, 'json');
+        }
       });
 
       var scaleBy = 1.05;
