@@ -3,7 +3,11 @@ require_once('../connessione.php');
 
 $idPlan = isset($_POST['idPlan']) ? $_POST['idPlan'] : 0;
 if(!$idPlan == 0){
-  $select = "SELECT pos_x, pos_y, id_prodotto FROM prodotti WHERE id_planimetria = " . $idPlan;
+  $select = "SELECT prodotti.pos_x, prodotti.pos_y, prodotti_img.path_img AS pathProd, planimetrie.path_img AS pathSfondo
+             FROM prodotti JOIN planimetrie JOIN prodotti_img
+             ON planimetrie.id = prodotti.id_planimetria
+             AND prodotti.id_prodotto = prodotti_img.id
+             WHERE prodotti.id_planimetria = " . $idPlan;
   $result = $conn->query($select);
   $arr = array();
   $i = 0;
@@ -11,7 +15,9 @@ if(!$idPlan == 0){
     $arr[$i] = array(
       'posX' => $row['pos_x'],
       'posY' => $row['pos_y'],
-      'idProd' => $row['id_prodotto']
+      'idProd' => $row['id_prodotto'],
+      'pathProd' => $row['pathProd'],
+      'pathSfondo' => $row['pathSfondo']
     );
     $i++;
   }
