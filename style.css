@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap%27');
+
+html{
+    font-family: 'Lato', sans-serif;
+}
+
+/* LOGIN */
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* LISTA-ANAGRAFICA */
+
+.anagrafiche {
+    margin-top: 30px;
+}
+
+i.trash {
+    color: red;
+}
+
+i.edit {
+    color: black;
+}
+
+h4 {
+    text-decoration: underline;
+}
+
+.home-button {
+    text-decoration: underline;
+}
+
+.nome-azienda {
+    margin-top: 20px;
+}
+
+.planimetria {
+    border: 1px solid black;
+}
+
+.row-immagine {
+    position: relative;
+}
+
+.row-immagine img {
+    width: 100%;
+    height: auto;
+}
+
+.row-immagine .zoom-in,
+.zoom-out {
+    position: absolute;
+    top: 5%;
+    left: 93%;
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 5%;
+}
+
+.zoom-out {
+    top: 15%
+}
+
+.aggiungi-muovi {
+    display: flex;
+    position: absolute;
+    top: 90%;
+    place-content: end;
+}
+
+.aggiungi,
+.muovi {
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.aggiungi {
+    margin-right: 10px;
+}
+
+.row-immagine .zoom-in:hover,
+.zoom-out:hover,
+.aggiungi:hover,
+.muovi:hover {
+    background-color: black;
+}
+
+.aggiungi-prodotto {
+    width: auto;
+    border-radius: 5px;
+    border: none;
+    background: #555;
+    color: white;
+    padding: 12px 24px;
+}
+
+.pin {
+    position: absolute;
+    background: none;
+    border: none;
+    width: auto;
+    font-size: x-large;
+}
+
+.pin1 {
+    top: 59%;
+    left: 70%;
+}
+
+.pin2 {
+    top: 45%;
+    left: 47%;
+}
+
+.row-tabella {
+    margin-top: 15px;
+}
+
+.informazioni-prodotto-acquistato {
+    width: auto;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+    padding: 5px;
+}
+
+.informazioni-prodotto-acquistato:hover {
+    background: black;
+}
+
+.ipa-1,
+.ipa-2 {
+    margin-bottom: 5px;
+}
+
+.row-ipa {
+    flex-wrap: nowrap;
+}
+
+.cestino {
+    width: auto;
+    color: white;
+    padding: 5px;
+    color: black;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.cestino:hover {
+    color: black;
+}
+
+.bottone-mappa{
+    display: none!important;
+}
+
+@media screen and (max-width: 960px) {
+    .bottone-mappa{
+        display: block!important;
+        text-align: center;
+    }
+
+    .div-immagine, .nome-azienda{
+        display: none!important;
+    }
+}

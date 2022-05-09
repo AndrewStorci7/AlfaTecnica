@@ -11,7 +11,7 @@ inserire i campi veri che si trovano all'interno del file cliente.xls
 **MOTORE** di ricerca per i prodotti da visualizzare nella planimetria.
 
 Lista delle tipologie dei prodotti che ha venduto ad un a azienda.
-Se clicco su visualizza mi manda alla pagina dove mi fa visualizzare tutti i pridotti di quella azinda e di quella tipologia.
+Se clicco su visualizza mi manda alla pagina dove mi fa visualizzare tutti i prodotti di quella azinda e di quella tipologia.
 Al posto di "prodotti acquistati" ci vuole "lista voci".
 Campi della tabella: 3 ... tipologia, quantità, data ultima manutenzione.
 nel quarto campo ci saranno i tasti visualizza, modifica, elimina e stampa. (moduli MDL-estintori, MDL-idranti ...);
