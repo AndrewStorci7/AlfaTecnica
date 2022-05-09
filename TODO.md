@@ -1,11 +1,11 @@
 # MODIFICHE PER LE PAGINE:
-**PROBLEMA DA RISOLVERE:** richeusta di due stili diversi per la visualizzazione dei dati (in una tabella o all'interno delle card).
+**PROBLEMA DA RISOLVERE:** richiesta di due stili diversi per la visualizzazione dei dati (in una tabella o all'interno delle card).
 tasto per il cambio di visualizzazione dei dati.
 
 Nelle card ci devono essere tre dati: logo, nome dell'azienda, sede, data ultima prestazione.
 ricerca deve avere tre campi.
 
-**PAGINA DELL'AZIENDA:** 
+**PAGINA DELL'AZIENDA:**
 inserire i campi veri che si trovano all'interno del file cliente.xls
 
 **MOTORE** di ricerca per i prodotti da visualizzare nella planimetria.
@@ -32,5 +32,3 @@ POMPA ANTINCENDIO:
 è composta dai dati ma anche da delle componenti meccaniche
 
 Modificare
-
-
