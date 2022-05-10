@@ -63,19 +63,19 @@
       var count = 0;
       var check = 0;
       var sfondo = new Image();
-      sfondo.src = "img/download.png";
+      sfondo.src = "img/planimetrie/download.png";
 
       $('#select').change(function(){
         check = $("#select option:selected").val();
         if(check == 1){
           idProdotto = 1;
-          src = "img/estintore.png";
+          src = "img/prodotti/estintore.png";
         } else if(check == 2){
           idProdotto = 2;
-          src = "img/sedia.png";
+          src = "img/prodotti/sedia.png";
         } else if(check == 3){
           idProdotto = 3;
-          src = "img/tavolo.png";
+          src = "img/prodotti/tavolo.png";
         }
         //src = "img/" + $("#select option:selected").val();
       });
