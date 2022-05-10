@@ -2,8 +2,8 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Creato il: Mag 09, 2022 alle 19:50
+-- Host: 127.0.0.1
+-- Creato il: Mag 10, 2022 alle 16:21
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -32,8 +32,18 @@ USE `alfatecnica`;
 CREATE TABLE `anagrafica` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `sede` varchar(100) NOT NULL
+  `sede` varchar(100) NOT NULL,
+  `path_logo` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `anagrafica`
+--
+
+INSERT INTO `anagrafica` (`id`, `nome`, `sede`, `path_logo`) VALUES
+(1, 'Dallara', 'Varano de Melegari', 'img/loghi/azienda1.png'),
+(2, 'Bercella', 'Varano de Melegari', 'img/loghi/azienda2.png'),
+(3, 'NonSoloTabacchi', 'Ozzano Taro', 'img/loghi/azienda3.png');
 
 -- --------------------------------------------------------
 
@@ -116,6 +126,15 @@ CREATE TABLE `planimetrie` (
   `nome_azienda` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `planimetrie`
+--
+
+INSERT INTO `planimetrie` (`id`, `path_img`, `idAnagrafica`, `nome_azienda`) VALUES
+(1, 'img/planimetrie/download.png', 1, 'Dallara'),
+(2, 'img/planimetrie/checojon-scaled.png', 2, 'Bercella'),
+(3, 'img/planimetrie/download.png', 3, 'NonSoloTabacchi');
+
 -- --------------------------------------------------------
 
 --
@@ -129,6 +148,24 @@ CREATE TABLE `prodotti` (
   `id_prodotto` int(11) NOT NULL,
   `id_planimetria` int(11) NOT NULL COMMENT 'Campo nullo, è solo una prova'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `prodotti`
+--
+
+INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `id_prodotto`, `id_planimetria`) VALUES
+(1, 223, 502, 1, 1),
+(2, 300, 560, 1, 1),
+(3, 697, 428, 2, 1),
+(4, 299, 576, 1, 1),
+(5, 727, 224, 1, 1),
+(6, 578, 246, 2, 1),
+(7, 609, 560, 2, 1),
+(8, 255, 176, 1, 2),
+(9, 145, 234, 1, 2),
+(10, 100, 100, 2, 2),
+(11, 187, 190, 3, 3),
+(12, 289, 598, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -146,9 +183,9 @@ CREATE TABLE `prodotti_img` (
 --
 
 INSERT INTO `prodotti_img` (`id`, `path_img`) VALUES
-(1, 'img/estintore.png'),
-(2, 'img/sedia.png'),
-(3, 'img/tavolo.png');
+(1, 'img/prodotti/estintore.png'),
+(2, 'img/prodotti/sedia.png'),
+(3, 'img/prodotti/tavolo.png');
 
 -- --------------------------------------------------------
 
@@ -367,13 +404,13 @@ ALTER TABLE `domande`
 -- AUTO_INCREMENT per la tabella `planimetrie`
 --
 ALTER TABLE `planimetrie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotti_img`
