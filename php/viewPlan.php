@@ -1,5 +1,5 @@
 <?php
-require_once('../connessione.php');
+require_once('connessione.php');
 
 $idPlan = isset($_POST['idPlan']) ? $_POST['idPlan'] : 0;
 if(!$idPlan == 0){
@@ -8,14 +8,13 @@ if(!$idPlan == 0){
              ON planimetrie.id = prodotti.id_planimetria
              AND prodotti.id_prodotto = prodotti_img.id
              WHERE prodotti.id_planimetria = " . $idPlan;
-  $result = $conn->query($select);
+  $result = $pdo->query($select);
   $arr = array();
   $i = 0;
-  while($row = $result->fetch_assoc()){
+  while($row = $result->fetch(PDO::FETCH_ASSOC)){
     $arr[$i] = array(
       'posX' => $row['pos_x'],
       'posY' => $row['pos_y'],
-      'idProd' => $row['id_prodotto'],
       'pathProd' => $row['pathProd'],
       'pathSfondo' => $row['pathSfondo']
     );
