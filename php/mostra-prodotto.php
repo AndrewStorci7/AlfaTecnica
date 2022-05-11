@@ -2,28 +2,81 @@
 require_once('connessione.php');
 
 
-$posX = isset($_POST['posX']) ? $_POST['posX'] : '';
-$posY = isset($_POST['posY']) ? $_POST['posY'] : '';
 $idProdotto = isset($_POST['idProdotto']) ? $_POST['idProdotto'] : 0;
 
-
-
-$select_planimetria = "SELECT planimetrie.path_img FROM `prodotti` join planimetrie on prodotti.id_planimetria = planimetrie.id where prodotti.pos_x =" . $posX . "  and prodotti.pos_y" . $posY;
+$select_prodotto = "SELECT planimetrie.path_img AS plan_img, prodotti.pos_x, prodotti.pos_y, prodotti_img.path_img AS prod_img FROM `prodotti` join planimetrie on prodotti.id_planimetria = planimetrie.id join prodotti_img on prodotti.id_prodotto = prodotti_img.id where prodotti.idProdotto =" . $idProdotto;
 
 $result = $pdo->query($select_planimetria);
+
 if ($result->num_rows > 0) {
-    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-ciaa
-    }
-  } else {
-    echo "0 results";
+  while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+
+    $array = [
+      "plan_img"=>$row["plan_img"],
+      "pos_x"=>$row["pos_x"],
+      "pos_y"=>$row["pos_y"],
+      "prod_img"=>$row["prod_img"]
+    ];
+
   }
-  $conn->close();
+} else {
+  echo "0 results";
+}
 
 
-if(!($posX == '' || $posY == '' || $idProdotto == 0)){
-    $insert = "INSERT INTO prodotti(pos_x, pos_y, id_prodotto, id_planimetria)
-               VALUES('" . $posX . "', '" . $posY . "', '" . $idProdotto . "', '" . $id_planimetria . "')";
-    $result = $conn->query($insert);
+echo '<script>
 
+var sfondo = new Image();
+sfondo.src = "'.$array["plan_img"].'";
+
+var div = document.getElementById("planimetria");
+var stage = new Konva.Stage({
+  container: "planimetria",
+  width: div.clientWidth + 300,
+  height: div.clientHeight + 300
+});
+
+var layerSfondo = new Konva.Layer({
+  scaleX: 1,
+  scaleY: 1
+});
+stage.add(layerSfondo);
+var layer = new Konva.Layer({
+  scaleX: 1,
+  scaleY: 1
+});
+stage.add(layer);
+
+var groupSfondo = new Konva.Group({
+  scaleX: 1
+});
+layer.add(groupSfondo);
+var group = new Konva.Group({
+  scaleX: 1
+});
+layer.add(group);
+var sfondoImg = new Konva.Image({
+  image: sfondo,
+  width: div.clientWidth,
+  height: div.clientHeight,
+  draggable: false
+});
+groupSfondo.add(sfondoImg);
+
+var imageObj = new Image();
+imageObj.src = "../" + '.$array["prod_img"].';
+var image = new Konva.Image({
+  x: '.$array["pos_x"].',
+  y: '.$array["pos_y"].',
+  image: imageObj,
+  width: 50,
+  height: 50,
+  draggable: false
+});
+group.add(image);
+
+
+
+
+</script>';
 ?>
