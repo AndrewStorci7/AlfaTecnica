@@ -208,21 +208,21 @@
         });
 
         $.post("../php/viewAnagr.php",{},function(resp){
-          const cards=document.getElementById("cardContainer");//prendere l'elemento con quel determinato id
+          const cards=document.getElementById("cardContainer");//prendere l'elemento con quel determinato id(cardContainer)
           for(let i=0;i<resp.length;i++){
             cards.innerHTML+='<div class="col">'+
-            '<div class="card text-center">'+
-            '<img src="../'+resp[i].path_logo+'" class="card-img-top">'+
-            '<div class="card-body">'+
-            '<h4 class="card-title">'+resp[i].nome+'</h4>'+
-            '<p class="card-text">'+resp[i].sede+'</p>'+
-                    '<a href="#"><i class="fa-solid fa-trash-can trash" style="float: left;"></i></a>'+
-                    '<button type="button" class="btn btn-outline-dark">Guarda</button>'+
-                    '<a href="#"><i class="fa-solid fa-pen-to-square edit"'+
-                    'style="float: right; vertical-align: middle;"></i></a>'+
-                    '</div>'+
-                    '</div>'+
-                    '</div>';
+                              '<div class="card text-center">'+
+                                '<img src="../'+resp[i].path_logo+'" class="card-img-top logo">'+
+                                  '<div class="card-body">'+
+                                    '<h4 class="card-title">'+resp[i].nome+'</h4>'+
+                                    '<p class="card-text">'+resp[i].sede+'</p>'+
+                                    '<a href="#"><i class="fa-solid fa-trash-can trash" style="float: left;"></i></a>'+
+                                    '<button type="button" class="btn btn-outline-dark">Guarda</button>'+
+                                    '<a href="#"><i class="fa-solid fa-pen-to-square edit"'+
+                                    'style="float: right; vertical-align: middle;"></i></a>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>';
           }
         },"json");
     });

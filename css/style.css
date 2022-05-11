@@ -34,6 +34,10 @@ html{
 }
 
 /* LISTA-ANAGRAFICA */
+/*.card-img-top{
+  height: auto;
+  width: auto;
+}*/
 
 .anagrafiche {
     margin-top: 30px;
@@ -71,6 +75,11 @@ h4 {
     width: 100%;
     height: auto;
 }
+
+/*.logo{
+  width: auto;
+  height: auto;
+}*/
 
 .row-immagine .zoom-in,
 .zoom-out {
