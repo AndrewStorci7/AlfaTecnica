@@ -13,7 +13,7 @@ $select_planimetria = "SELECT planimetrie.path_img FROM `prodotti` join planimet
 $result = $pdo->query($select_planimetria);
 if ($result->num_rows > 0) {
     while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-
+ciaa
     }
   } else {
     echo "0 results";
