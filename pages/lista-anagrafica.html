@@ -19,7 +19,7 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Alfatecnica - Lista Anagrafica</title>
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="../img/logo.png">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <div class="container-fluid">
-            <a href="#"><img src="img/logo.png" width="55px" height="50px"></a>
+            <a href="#"><img src="../img/logo.png" width="55px" height="50px"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -71,10 +71,10 @@
             <div class="col">
                 <input type="text" class="form-control" placeholder="Città" aria-label="Città">
             </div>
-            <div class="col">
+            <div class="col searchIcon">
                 <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass"></i>Cerca</button>
-                <button type="button" class="btn btn-outline-success change_cards"><i class="fa-solid fa-table-list"></i></button>
-                <button type="button" class="btn btn-outline-success change_table"><i class="fa-solid fa-border-all"></i></button>
+                <button type="button" class="btn btn-outline-success selected change_cards verde" id="cards"><i class="fa-solid fa-table-list bianco"></i></button>
+                <button type="button" class="btn btn-outline-success change_table verde" id="table"><i class="fa-solid fa-border-all bianco"></i></button>
             </div>
         </div>
     </div>
@@ -225,7 +225,18 @@
                     '</div>';
           }
         },"json");
+
+        $( "#table" ).click(function() {
+           $("#cards").removeClass("selected");
+           $("#table").addClass("selected");
+        });
+        $( "#cards" ).click(function() {
+           $("#cards").addClass("selected");
+           $("#table").removeClass("selected");
+        });
     });
+
+
 
 </script>
 
