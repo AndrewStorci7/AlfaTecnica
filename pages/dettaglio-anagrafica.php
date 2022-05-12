@@ -1,8 +1,16 @@
+<?php
+require_once("../php/connessione.php");
+$idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
+if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
+
+
+
+ ?>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="logo.png">
+    <link rel="icon" href="../img/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -18,7 +26,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
+        charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/style.css">
     <title>Alfatecnica - Dettaglio Anagrafica</title>
 </head>
 
@@ -26,7 +39,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <div class="container-fluid">
-            <a href="#"><img src="logo.png" width="55px" height="50px"></a>
+            <a href="#"><img src="../img/logo.png" width="55px" height="50px"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -196,16 +209,8 @@
     </div>
     <div class="container">
         <div class="row row-immagine">
-            <div class="div-immagine">
-                <img src="planimetria.png" class="rounded img-fluid planimetria" alt="Responsive image">
-                <button class="zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-                <button class="zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-                <button class="pin pin1"><i class="fa-solid fa-location-dot fa-2xl"></i></button>
-                <button class="pin pin2"><i class="fa-solid fa-location-dot fa-2xl"></i></button>
-                <div class="aggiungi-muovi" style="width: 100%;right: 3%;">
-                    <button class="aggiungi">Aggiungi prodotto</button>
-                    <button class="muovi"><i class="fa-solid fa-arrows-up-down-left-right"></i></button>
-                </div>
+            <div class="div-immagine" id="planimetria">
+
             </div>
         </div>
     </div>
@@ -322,6 +327,96 @@
         <p class="text-center text-muted ">© 2022 Alfatecnica</p>
     </footer>
     <!-- Fine -->
+
+    <script type="text/javascript">
+    var idAnag = <?php echo $idAnagrafica; ?>;
+    var sfondo = new Image();
+    var div = document.getElementById('planimetria');
+    var stage = new Konva.Stage({
+      container: 'planimetria',
+      width: div.clientWidth + 300,
+      height: div.clientHeight + 300
+    });
+
+    var layerSfondo = new Konva.Layer({
+      scaleX: 1,
+      scaleY: 1
+    });
+    stage.add(layerSfondo);
+    var layer = new Konva.Layer({
+      scaleX: 1,
+      scaleY: 1
+    });
+    stage.add(layer);
+
+    var groupSfondo = new Konva.Group({
+      scaleX: 1
+    });
+    layer.add(groupSfondo);
+    var group = new Konva.Group({
+      scaleX: 1
+    });
+    layer.add(group);
+    var sonfoImg = new Konva.Image({
+      image: sfondo,
+      width: div.clientWidth,
+      height: div.clientHeight,
+      draggable: false
+    });
+    groupSfondo.add(sonfoImg);
+
+    var srcSfondo = "";
+    $(window).on('load', function(){
+      console.log('ciao');
+      $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
+          srcSfondo = resp[0].pathSfondo;
+          for(let i = 0; i < resp.length; i++){
+            var posX = resp[i].posX;
+            var posY = resp[i].posY;
+            var src = "";
+            var imageObj = new Image();
+            imageObj.src = "../" + resp[i].pathProd;
+            var image = new Konva.Image({
+              x: posX,
+              y: posY,
+              image: imageObj,
+              width: 50,
+              height: 50,
+              draggable: false
+            });
+            group.add(image);
+          }
+          sfondo.src = "../" + srcSfondo;
+      }, 'json');
+
+    });
+    var scaleBy = 1.05;
+    stage.on('wheel', (e) => {
+      e.evt.preventDefault();
+
+      var oldScale = stage.scaleX();
+      var pointer = stage.getPointerPosition();
+
+      var mousePointTo = {
+        x: (pointer.x - stage.x()) / oldScale,
+        y: (pointer.y - stage.y()) / oldScale,
+      };
+      let direction = e.evt.deltaY > 0 ? 1 : -1;
+      if (e.evt.ctrlKey) {
+        direction = -direction;
+      }
+      var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+      stage.scale({ x: newScale, y: newScale });
+      var newPos = {
+        x: pointer.x - mousePointTo.x * newScale,
+        y: pointer.y - mousePointTo.y * newScale,
+      };
+      stage.position(newPos);
+    });
+    </script>
 </body>
 
 </html>
+<?php
+}
+ ?>

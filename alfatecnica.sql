@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 10, 2022 alle 16:21
+-- Creato il: Mag 12, 2022 alle 19:52
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -33,17 +33,29 @@ CREATE TABLE `anagrafica` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `sede` varchar(100) NOT NULL,
-  `path_logo` varchar(40) NOT NULL
+  `path_logo` varchar(40) NOT NULL,
+  `indirizzo` varchar(150) NOT NULL,
+  `CAP` int(10) NOT NULL,
+  `citta` varchar(50) NOT NULL,
+  `provincia` varchar(50) NOT NULL,
+  `telefono1` int(20) DEFAULT NULL,
+  `email1` varchar(50) DEFAULT NULL,
+  `rif_personale` text DEFAULT NULL,
+  `telefono2` int(20) DEFAULT NULL,
+  `cellulare` int(20) DEFAULT NULL,
+  `email2` varchar(50) DEFAULT NULL,
+  `noteAziendali` text DEFAULT NULL,
+  `noteCliente` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `anagrafica`
 --
 
-INSERT INTO `anagrafica` (`id`, `nome`, `sede`, `path_logo`) VALUES
-(1, 'Dallara', 'Varano de Melegari', 'img/loghi/azienda1.png'),
-(2, 'Bercella', 'Varano de Melegari', 'img/loghi/azienda2.png'),
-(3, 'NonSoloTabacchi', 'Ozzano Taro', 'img/loghi/azienda3.png');
+INSERT INTO `anagrafica` (`id`, `nome`, `sede`, `path_logo`, `indirizzo`, `CAP`, `citta`, `provincia`, `telefono1`, `email1`, `rif_personale`, `telefono2`, `cellulare`, `email2`, `noteAziendali`, `noteCliente`) VALUES
+(1, 'Dallara', 'Varano de Melegari', 'img/loghi/azienda1.png', '', 0, '', '', 0, '', '', 0, 0, '', '', ''),
+(2, 'Bercella', 'Varano de Melegari', 'img/loghi/azienda2.png', '', 0, '', '', 0, '', '', 0, 0, '', '', ''),
+(3, 'NonSoloTabacchi', 'Ozzano Taro', 'img/loghi/azienda3.png', '', 0, '', '', 0, '', '', 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -56,6 +68,22 @@ CREATE TABLE `app` (
   `idPlanimetria` int(11) NOT NULL,
   `idProdotto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `app`
+--
+
+INSERT INTO `app` (`idAnagrafica`, `idPlanimetria`, `idProdotto`) VALUES
+(1, 1, 1),
+(1, 1, 2),
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 9),
+(2, 1, 10),
+(2, 3, 5),
+(2, 3, 6),
+(2, 3, 7),
+(2, 3, 8);
 
 -- --------------------------------------------------------
 
@@ -121,19 +149,17 @@ CREATE TABLE `d_q` (
 
 CREATE TABLE `planimetrie` (
   `id` int(11) NOT NULL,
-  `path_img` tinytext NOT NULL,
-  `idAnagrafica` int(11) NOT NULL,
-  `nome_azienda` varchar(35) NOT NULL
+  `path_img` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `planimetrie`
 --
 
-INSERT INTO `planimetrie` (`id`, `path_img`, `idAnagrafica`, `nome_azienda`) VALUES
-(1, 'img/planimetrie/download.png', 1, 'Dallara'),
-(2, 'img/planimetrie/checojon-scaled.png', 2, 'Bercella'),
-(3, 'img/planimetrie/download.png', 3, 'NonSoloTabacchi');
+INSERT INTO `planimetrie` (`id`, `path_img`) VALUES
+(1, 'img/planimetrie/download.png'),
+(2, 'img/planimetrie/checojon-scaled.png'),
+(3, 'img/planimetrie/download.png');
 
 -- --------------------------------------------------------
 
@@ -145,27 +171,26 @@ CREATE TABLE `prodotti` (
   `id` int(11) NOT NULL,
   `pos_x` float NOT NULL,
   `pos_y` float NOT NULL,
-  `id_prodotto` int(11) NOT NULL,
-  `id_planimetria` int(11) NOT NULL COMMENT 'Campo nullo, è solo una prova'
+  `id_prodotto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `prodotti`
 --
 
-INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `id_prodotto`, `id_planimetria`) VALUES
-(1, 223, 502, 1, 1),
-(2, 300, 560, 1, 1),
-(3, 697, 428, 2, 1),
-(4, 299, 576, 1, 1),
-(5, 727, 224, 1, 1),
-(6, 578, 246, 2, 1),
-(7, 609, 560, 2, 1),
-(8, 255, 176, 1, 2),
-(9, 145, 234, 1, 2),
-(10, 100, 100, 2, 2),
-(11, 187, 190, 3, 3),
-(12, 289, 598, 2, 3);
+INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `id_prodotto`) VALUES
+(1, 223, 502, 1),
+(2, 300, 560, 1),
+(3, 697, 428, 2),
+(4, 299, 576, 1),
+(5, 727, 224, 1),
+(6, 578, 246, 2),
+(7, 609, 560, 2),
+(8, 255, 176, 1),
+(9, 145, 234, 1),
+(10, 100, 100, 2),
+(11, 187, 190, 3),
+(12, 289, 598, 2);
 
 -- --------------------------------------------------------
 
@@ -317,16 +342,14 @@ ALTER TABLE `d_q`
 -- Indici per le tabelle `planimetrie`
 --
 ALTER TABLE `planimetrie`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idAnagrafica` (`idAnagrafica`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `prodotti`
 --
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_prodotto` (`id_prodotto`),
-  ADD KEY `id_planimetria` (`id_planimetria`);
+  ADD KEY `FK_prodotto` (`id_prodotto`);
 
 --
 -- Indici per le tabelle `prodotti_img`
@@ -470,17 +493,10 @@ ALTER TABLE `d_q`
   ADD CONSTRAINT `d_q_ibfk_2` FOREIGN KEY (`idDomanda`) REFERENCES `domande` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `planimetrie`
---
-ALTER TABLE `planimetrie`
-  ADD CONSTRAINT `planimetrie_ibfk_1` FOREIGN KEY (`idAnagrafica`) REFERENCES `anagrafica` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Limiti per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti_img` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `prodotti_ibfk_2` FOREIGN KEY (`id_planimetria`) REFERENCES `planimetrie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti_img` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `p_d`
@@ -488,6 +504,20 @@ ALTER TABLE `prodotti`
 ALTER TABLE `p_d`
   ADD CONSTRAINT `p_d_ibfk_1` FOREIGN KEY (`idDomanda`) REFERENCES `domande` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `p_d_ibfk_2` FOREIGN KEY (`idProdotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `p_q`
+--
+ALTER TABLE `p_q`
+  ADD CONSTRAINT `p_q_ibfk_1` FOREIGN KEY (`idProdotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `p_q_ibfk_2` FOREIGN KEY (`idQuestionario`) REFERENCES `questionario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `ris_rev`
+--
+ALTER TABLE `ris_rev`
+  ADD CONSTRAINT `ris_rev_ibfk_1` FOREIGN KEY (`idcampo`) REFERENCES `campi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ris_rev_ibfk_2` FOREIGN KEY (`idRevisione`) REFERENCES `revisioni` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
