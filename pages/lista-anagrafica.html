@@ -61,7 +61,7 @@
     <!-- AGGIUNTA E RICERCA -->
 
     <div class="container">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="row">
             <div class="col">
                 <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-user-plus"></i>Aggiungi</button>
             </div>
@@ -69,7 +69,10 @@
                 <input type="text" class="form-control" placeholder="Nome azienda" aria-label="Nome azienda">
             </div>
             <div class="col">
-                <input type="text" class="form-control" placeholder="Città" aria-label="Città">
+                <input type="text" class="form-control" placeholder="Sede" aria-label="Sede">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Data ultima prestazione" aria-label="Data ultima prestazione">
             </div>
             <div class="col searchIcon">
                 <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass"></i>Cerca</button>
@@ -115,47 +118,8 @@
                                 <th scope="col">Gestione</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>&nbsp;</th>
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                </td>
-                            </tr>
+                        <tbody id="tabella-ajax">
+
                         </tbody>
                     </table>
                 </div>
@@ -208,7 +172,8 @@
         });
 
         $.post("../php/viewAnagr.php",{},function(resp){
-          const cards=document.getElementById("cardContainer");//prendere l'elemento con quel determinato id
+          const cards = document.getElementById("cardContainer");//prendere l'elemento con quel determinato id
+          const tabella = document.getElementById('tabella-ajax');
           for(let i=0;i<resp.length;i++){
             cards.innerHTML+='<div class="col">'+
             '<div class="card text-center">'+
@@ -223,6 +188,14 @@
                     '</div>'+
                     '</div>'+
                     '</div>';
+            tabella.innerHTML += '<tr>'+
+            '<th style="text-align: center;">' + resp[i].nome + '</th>'+
+              '<td style="text-align: center;">'+
+               '<button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>'+
+               '<button class="btn btn-outline-info"><i class="fa-solid fa-circle-info"></i></button>'+
+               '<button class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></button>'+
+              '</td>'+
+            '</tr>';
           }
         },"json");
 

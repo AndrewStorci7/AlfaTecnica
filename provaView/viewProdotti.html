@@ -48,10 +48,7 @@
     <div class="container view" id="planimetria"></div>
   </body>
   <script type="text/javascript">
-  var idPlan = 1;
-  /*$('#plan1').click(function(){ idPlan = 1; });
-  $('#plan2').click(function(){ idPlan = 2; });
-  $('#plan3').click(function(){ idPlan = 3; });*/
+  var idAnag = 1;
   var sfondo = new Image();
   var div = document.getElementById('planimetria');
   var stage = new Konva.Stage({
@@ -90,7 +87,7 @@
   var srcSfondo = "";
   $(window).on('load', function(){
     console.log('ciao');
-    $.post('viewPlan.php', {idPlan:idPlan}, function(resp){
+    $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
         srcSfondo = resp[0].pathSfondo;
         for(let i = 0; i < resp.length; i++){
           var posX = resp[i].posX;
