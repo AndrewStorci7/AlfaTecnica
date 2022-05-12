@@ -84,15 +84,16 @@
   });
   groupSfondo.add(sonfoImg);
 
-
+  var srcSfondo = "";
   $(window).on('load', function(){
-    $.post('viewPlan.php', {idAnag:idAnag}, function(resp){
-      sfondo.src = resp[0].pathSfondo;
+    console.log('ciao');
+    $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
+        srcSfondo = resp[0].pathSfondo;
         for(let i = 0; i < resp.length; i++){
           var posX = resp[i].posX;
           var posY = resp[i].posY;
           var imageObj = new Image();
-          imageObj.src = resp[i].pathProd;
+          imageObj.src = "../" + resp[i].pathProd;
           var image = new Konva.Image({
             x: posX,
             y: posY,
@@ -103,9 +104,10 @@
           });
           group.add(image);
         }
+        sfondo.src = "../" + srcSfondo;
     }, 'json');
-  });
 
+  });
   var scaleBy = 1.05;
   stage.on('wheel', (e) => {
     e.evt.preventDefault();
