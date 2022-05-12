@@ -243,3 +243,8 @@ h4 {
         display: none!important;
     }
 }
+.verde{
+  background-color: green;
+}
+.searchIcon .btn-outline-success:hover{color:white; background-color: green;}
+.searchIcon .btn-outline-success.selected{color:white; background-color: green;}
