@@ -1,4 +1,11 @@
+<?php
+require_once("../php/connessione.php");
+$idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
+if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
 
+
+
+ ?>
 <html>
 
 <head>
@@ -322,7 +329,7 @@
     <!-- Fine -->
 
     <script type="text/javascript">
-    var idAnag = 1;
+    var idAnag = <?php echo $idAnagrafica; ?>;
     var sfondo = new Image();
     var div = document.getElementById('planimetria');
     var stage = new Konva.Stage({
@@ -394,7 +401,7 @@
         x: (pointer.x - stage.x()) / oldScale,
         y: (pointer.y - stage.y()) / oldScale,
       };
-      let direction = e.evt.deltaY > 0 ? -1 : 1;
+      let direction = e.evt.deltaY > 0 ? 1 : -1;
       if (e.evt.ctrlKey) {
         direction = -direction;
       }
@@ -410,3 +417,6 @@
 </body>
 
 </html>
+<?php
+}
+ ?>
