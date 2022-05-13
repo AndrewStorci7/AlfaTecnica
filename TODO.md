@@ -32,3 +32,4 @@ POMPA ANTINCENDIO:
 è composta dai dati ma anche da delle componenti meccaniche
 
 Modificare
+ciao
