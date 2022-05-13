@@ -252,63 +252,37 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <table class="table table-bordered">
                         <thead>
                             <tr style="text-align: center;">
-                                <th scope="col">Tipologia</th>
+                                <th scope="col"><a href="Mdl-Imp-Sprinkler-a-secco.html" style="color: black; text-decoration: none;">Impianti</a></th>
                                 <th scope="col">Quantità</th>
-                                <th scope="col">Data ultima revisione</th>
+                                <th scope="col">Data ultima manutenzione</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">&nbsp;</th>
+                                <th scope="row"><button class="btn" id="vista">Estintore</button></th>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
 
                                 <td style="text-align: center;">
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
+                                    <button class="btn btn-outline-info"><a href="Mdl_Estintori.html"
+                                            style="text-decoration-color: none;"><i
+                                                class="fa-solid fa-circle-info"></i></a></button>
                                     <button class="btn btn-outline-danger"><i
                                             class="fa-solid fa-trash-can"></i></button>
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">&nbsp;</th>
+                                <th scope="row"><button class="btn" id="vista2">Idrante</button></th>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
 
                                 <td style="text-align: center;">
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">&nbsp;</th>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">&nbsp;</th>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
+                                    <button class="btn btn-outline-info"><a href="Mdl_Idranti.html"
+                                            style="text-decoration-color: none;"><i
+                                                class="fa-solid fa-circle-info"></i></a></button>
                                     <button class="btn btn-outline-danger"><i
                                             class="fa-solid fa-trash-can"></i></button>
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
