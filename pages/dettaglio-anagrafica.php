@@ -345,6 +345,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
           srcSfondo = resp[0].pathSfondo;
           for(let i = 0; i < resp.length; i++){
+            var nome_prod = resp[i].nome_prod;
             var posX = resp[i].posX;
             var posY = resp[i].posY;
             var src = "";
@@ -356,7 +357,9 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
               image: imageObj,
               width: 50,
               height: 50,
-              draggable: false
+              draggable: false,
+              id: resp[i].id_prod,
+              name: nome_prod
             });
             group.add(image);
           }
@@ -386,6 +389,15 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
         y: pointer.y - mousePointTo.y * newScale,
       };
       stage.position(newPos);
+    });
+
+    $('#vista2').click(function(){
+      const plan = group.toObject();
+      for(let i = 0; i < plan.children.length; i++){
+        if(plan.children[i].attrs.name == 'estintore'){
+          
+        }
+      }
     });
     </script>
 </body>
