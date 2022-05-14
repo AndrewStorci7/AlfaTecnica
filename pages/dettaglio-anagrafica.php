@@ -52,6 +52,10 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
         charset="utf-8"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/style.css">
     <title>Alfatecnica - Dettaglio Anagrafica</title>
 </head>
@@ -233,6 +237,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
             <div class="div-immagine" id="planimetria">
 
             </div>
+            <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
+            <button class="stampa" id="stampaPDFPlan">Stampa PDF della planimetria</button>
         </div>
     </div>
     <div class="container">
@@ -413,22 +419,46 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
     });
 
     $('#vista').click(function(){
-      const plan = group.toObject();
-      for(let i = 0; i < plan.children.length; i++){
-        console.log(plan.children[i]);
-        if(plan.children[i].attrs.name == 'estintore'){
-          plan.children[i].setAttrs({
-            fill: 'red'
-          });
-          /*imageObj.setAttrs({
-            borderSize: 5,
-            borderColor: 'red'
-          });
-
-          imageObj.filters([Border]);
-          imageObj.cache();*/
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        if(group.children[i].attrs.name != 'estintore'){
+          prova.visible(false);
+        } else {
+          prova.visible(true);
         }
       }
+    });
+    $('#vista2').click(function(){
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        if(group.children[i].attrs.name != 'idrante'){
+          prova.visible(false);
+        } else {
+          prova.visible(true);
+        }
+      }
+    });
+    $('#viewAll').click(function(){
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        prova.visible(true);
+      }
+    });
+
+    $('#stampaPDFPlan').click(function(){
+      var nomeAz = '<?php echo $arrayAna['nomeAzienda']; ?>';
+      var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
+      stage.find('Image').forEach((image) => {
+        pdf.addImage(
+          stage.toDataURL({ pixelRatio: 1 }),
+          0,
+          0,
+          stage.width(),
+          stage.height()
+        );
+      });
+
+      pdf.save('planimetria' + nomeAz + '.pdf');
     });
     </script>
 </body>

@@ -231,6 +231,12 @@ h4 {
 #button{
   text-align: right;
 }
+#viewAll {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: auto;
+}
 /* Andrew drink */
 
 @media screen and (max-width: 960px) {
