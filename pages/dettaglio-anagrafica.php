@@ -2,7 +2,28 @@
 require_once("../php/connessione.php");
 $idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
 if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
-
+  $selectAna = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
+                FROM anagrafica WHERE id = :id";
+  $pre = $pdo->prepare($selectAna);
+  $pre->bindParam(':id', $idAnagrafica, PDO::PARAM_INT);
+  $pre->execute();
+  while($row = $pre->fetch(PDO::FETCH_ASSOC)){
+    $arrayAna = [
+      'nomeAzienda' => $row['nome'],
+      'indirizzo' => $row['indirizzo'],
+      'cap' => $row['CAP'],
+      'citta' => $row['citta'],
+      'provincia' => $row['provincia'],
+      'telefono1' => $row['telefono1'],
+      'email1' => $row['email1'],
+      'rp' => $row['rif_personale'],
+      'telefono2' => $row['telefono2'],
+      'cellulare' => $row['cellulare'],
+      'email2' => $row['email2'],
+      'na' => $row['noteAziendali'],
+      'nc' => $row['noteCliente']
+    ];
+  }
 
 
  ?>
@@ -26,11 +47,11 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
-        charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
+        charset="utf-8"></script>
     <link rel="stylesheet" href="../css/style.css">
     <title>Alfatecnica - Dettaglio Anagrafica</title>
 </head>
@@ -73,7 +94,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
             <div class="d-flex justify-content-center nome-azienda">
                 <div class="row">
                     <div class="col-12">
-                        <h4>Nome azienda</h4>
+                        <h4><?php echo $arrayAna['nomeAzienda']; ?></h4>
                     </div>
                 </div>
             </div>
@@ -87,7 +108,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                         <h5 class="card-title"><i class="fa-solid fa-house fa-2xs"
                                 style="margin-right: 10px;"></i>Indirizzo:
                             </h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['indirizzo']; ?></p>
                     </div>
                 </div>
             </div>
@@ -96,7 +117,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-city fa-2xs" style="margin-right: 10px;"></i>Città
                             - Cap:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['citta'] . " - " . $arrayAna['cap']; ?></p>
                     </div>
                 </div>
             </div>
@@ -105,7 +126,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-building fa-2xs"
                                 style="margin-right: 10px;"></i>Provincia:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['provincia']; ?></p>
                     </div>
                 </div>
             </div>
@@ -114,7 +135,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>Telefono/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['telefono1']; ?></p>
                     </div>
                 </div>
             </div>
@@ -125,7 +146,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-envelope fa-2xs"
                                 style="margin-right: 10px;"></i>Email:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['email1']; ?></p>
                     </div>
                 </div>
             </div>
@@ -134,7 +155,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-user fa-2xs"
                                 style="margin-right: 10px;"></i>Riferimento/i personale/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['rp']; ?></p>
                     </div>
                 </div>
             </div>
@@ -143,7 +164,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>Telefono/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['telefono2']; ?></p>
                     </div>
                 </div>
             </div>
@@ -152,7 +173,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>T.Cellulare:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['cellulare']; ?></p>
                     </div>
                 </div>
             </div>
@@ -161,7 +182,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-envelope fa-2xs"
                                 style="margin-right: 10px;"></i>Email:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['email2']; ?></p>
                     </div>
                 </div>
             </div>
@@ -170,7 +191,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-industry fa-2xs"
                                 style="margin-right: 10px;"></i>Note aziendali:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['na']; ?></p>
                     </div>
                 </div>
             </div>
@@ -179,7 +200,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-image-portrait fa-2xs"
                                 style="margin-right: 10px;"></i>Note per cliente:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['nc']; ?></p>
                     </div>
                 </div>
             </div>
@@ -391,11 +412,21 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       stage.position(newPos);
     });
 
-    $('#vista2').click(function(){
+    $('#vista').click(function(){
       const plan = group.toObject();
       for(let i = 0; i < plan.children.length; i++){
+        console.log(plan.children[i]);
         if(plan.children[i].attrs.name == 'estintore'){
-          
+          plan.children[i].setAttrs({
+            fill: 'red'
+          });
+          /*imageObj.setAttrs({
+            borderSize: 5,
+            borderColor: 'red'
+          });
+
+          imageObj.filters([Border]);
+          imageObj.cache();*/
         }
       }
     });
