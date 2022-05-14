@@ -8,7 +8,7 @@ if(!$idAnag == 0){
              ON planimetrie.id = app.idPlanimetria
              AND app.idAnagrafica = anagrafica.id
              AND app.idProdotto = prodotti.id
-             AND prodotti.id_prodotto = prodotti_img.id
+             AND prodotti.idProdImg = prodotti_img.id
              WHERE app.idAnagrafica = " . $idAnag;
   $result = $pdo->query($select);
   $arr = array();

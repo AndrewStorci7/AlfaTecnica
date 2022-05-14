@@ -2,9 +2,28 @@
 require_once("../php/connessione.php");
 $idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
 if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
-
-
-
+  $select = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
+             FROM anagrafica WHERE id = :id";
+  $pre = $pdo->prepare($select);
+  $pre->bindParam(':id', $idAnagrafica, PDO::PARAM_INT);
+  $pre->execute();
+  while($row = $pre->fetch(PDO::FETCH_ASSOC)){
+    $arrayAna = [
+      'nomeAzienda' => $row['nome'],
+      'indirizzo' => $row['indirizzo'],
+      'cap' => $row['CAP'],
+      'citta' => $row['citta'],
+      'provincia' => $row['provincia'],
+      'telefono1' => $row['telefono1'],
+      'email1' => $row['email1'],
+      'rif_personale' => $row['rif_personale'],
+      'telefono2' => $row['telefono2'],
+      'cellulare' => $row['cellulare'],
+      'email2' => $row['email2'],
+      'noteAziendali' => $row['noteAziendali'],
+      'noteCliente' => $row['noteCliente']
+    ];
+  }
  ?>
 <html>
 
@@ -73,7 +92,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
             <div class="d-flex justify-content-center nome-azienda">
                 <div class="row">
                     <div class="col-12">
-                        <h4>Nome azienda</h4>
+                        <h4><?php echo $arrayAna['nomeAzienda']; ?></h4>
                     </div>
                 </div>
             </div>
@@ -87,7 +106,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                         <h5 class="card-title"><i class="fa-solid fa-house fa-2xs"
                                 style="margin-right: 10px;"></i>Indirizzo:
                             </h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['indirizzo']; ?></p>
                     </div>
                 </div>
             </div>
@@ -96,7 +115,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-city fa-2xs" style="margin-right: 10px;"></i>Città
                             - Cap:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['citta']; ?> - <?php echo $arrayAna['cap']; ?></p>
                     </div>
                 </div>
             </div>
@@ -105,7 +124,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-building fa-2xs"
                                 style="margin-right: 10px;"></i>Provincia:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['provincia']; ?></p>
                     </div>
                 </div>
             </div>
@@ -114,7 +133,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>Telefono/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['telefono1']; ?></p>
                     </div>
                 </div>
             </div>
@@ -125,7 +144,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-envelope fa-2xs"
                                 style="margin-right: 10px;"></i>Email:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['email1']; ?></p>
                     </div>
                 </div>
             </div>
@@ -134,7 +153,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-user fa-2xs"
                                 style="margin-right: 10px;"></i>Riferimento/i personale/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['rif_personale']; ?></p>
                     </div>
                 </div>
             </div>
@@ -143,7 +162,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>Telefono/i:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['telefono2']; ?></p>
                     </div>
                 </div>
             </div>
@@ -152,7 +171,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-phone fa-2xs"
                                 style="margin-right: 10px;"></i>T.Cellulare:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['cellulare']; ?></p>
                     </div>
                 </div>
             </div>
@@ -161,7 +180,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-envelope fa-2xs"
                                 style="margin-right: 10px;"></i>Email:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['email2']; ?></p>
                     </div>
                 </div>
             </div>
@@ -170,7 +189,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-industry fa-2xs"
                                 style="margin-right: 10px;"></i>Note aziendali:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['noteAziendali']; ?></p>
                     </div>
                 </div>
             </div>
@@ -179,7 +198,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-image-portrait fa-2xs"
                                 style="margin-right: 10px;"></i>Note per cliente:</h4>
-                            <p class="card-text"></p>
+                            <p class="card-text"><?php echo $arrayAna['noteCliente']; ?></p>
                     </div>
                 </div>
             </div>
