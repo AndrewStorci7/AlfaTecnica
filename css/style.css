@@ -237,6 +237,9 @@ h4 {
   left: 5px;
   width: auto;
 }
+#stampaPDFPlan{
+  float: right;
+}
 /* Andrew drink */
 
 @media screen and (max-width: 960px) {

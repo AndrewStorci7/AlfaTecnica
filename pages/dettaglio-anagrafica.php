@@ -238,7 +238,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
 
             </div>
             <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
-            <button class="stampa" id="stampaPDFPlan">Stampa PDF della planimetria</button>
+            <button class="stampa" id="stampaPDFPlan">Stampa PDF</button>
         </div>
     </div>
     <div class="container">
