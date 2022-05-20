@@ -2,9 +2,9 @@
 require_once("../php/connessione.php");
 $idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
 if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
-  $select = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
-             FROM anagrafica WHERE id = :id";
-  $pre = $pdo->prepare($select);
+  $selectAna = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
+                FROM anagrafica WHERE id = :id";
+  $pre = $pdo->prepare($selectAna);
   $pre->bindParam(':id', $idAnagrafica, PDO::PARAM_INT);
   $pre->execute();
   while($row = $pre->fetch(PDO::FETCH_ASSOC)){
@@ -16,14 +16,15 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       'provincia' => $row['provincia'],
       'telefono1' => $row['telefono1'],
       'email1' => $row['email1'],
-      'rif_personale' => $row['rif_personale'],
+      'rp' => $row['rif_personale'],
       'telefono2' => $row['telefono2'],
       'cellulare' => $row['cellulare'],
       'email2' => $row['email2'],
-      'noteAziendali' => $row['noteAziendali'],
-      'noteCliente' => $row['noteCliente']
+      'na' => $row['noteAziendali'],
+      'nc' => $row['noteCliente']
     ];
   }
+  
  ?>
 <html>
 
@@ -45,10 +46,14 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
-        charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/konva@8.3.5/konva.min.js"
+        charset="utf-8"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/style.css">
     <title>Alfatecnica - Dettaglio Anagrafica</title>
@@ -115,7 +120,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-city fa-2xs" style="margin-right: 10px;"></i>Città
                             - Cap:</h4>
-                            <p class="card-text"><?php echo $arrayAna['citta']; ?> - <?php echo $arrayAna['cap']; ?></p>
+                            <p class="card-text"><?php echo $arrayAna['citta'] . " - " . $arrayAna['cap']; ?></p>
                     </div>
                 </div>
             </div>
@@ -153,7 +158,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-user fa-2xs"
                                 style="margin-right: 10px;"></i>Riferimento/i personale/i:</h4>
-                            <p class="card-text"><?php echo $arrayAna['rif_personale']; ?></p>
+                            <p class="card-text"><?php echo $arrayAna['rp']; ?></p>
                     </div>
                 </div>
             </div>
@@ -189,7 +194,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-industry fa-2xs"
                                 style="margin-right: 10px;"></i>Note aziendali:</h4>
-                            <p class="card-text"><?php echo $arrayAna['noteAziendali']; ?></p>
+                            <p class="card-text"><?php echo $arrayAna['na']; ?></p>
                     </div>
                 </div>
             </div>
@@ -198,7 +203,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-image-portrait fa-2xs"
                                 style="margin-right: 10px;"></i>Note per cliente:</h4>
-                            <p class="card-text"><?php echo $arrayAna['noteCliente']; ?></p>
+                            <p class="card-text"><?php echo $arrayAna['nc']; ?></p>
                     </div>
                 </div>
             </div>
@@ -231,6 +236,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
             <div class="div-immagine" id="planimetria">
 
             </div>
+            <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
+            <button class="stampa" id="stampaPDFPlan">Stampa PDF</button>
         </div>
     </div>
     <div class="container">
@@ -271,63 +278,37 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <table class="table table-bordered">
                         <thead>
                             <tr style="text-align: center;">
-                                <th scope="col">Tipologia</th>
+                                <th scope="col"><a href="Mdl-Imp-Sprinkler-a-secco.html" style="color: black; text-decoration: none;">Impianti</a></th>
                                 <th scope="col">Quantità</th>
-                                <th scope="col">Data ultima revisione</th>
+                                <th scope="col">Data ultima manutenzione</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row">&nbsp;</th>
+                                <th scope="row"><button class="btn" id="vista">Estintore</button></th>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
 
                                 <td style="text-align: center;">
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
+                                    <button class="btn btn-outline-info"><a href="Mdl_Estintori.html"
+                                            style="text-decoration-color: none;"><i
+                                                class="fa-solid fa-circle-info"></i></a></button>
                                     <button class="btn btn-outline-danger"><i
                                             class="fa-solid fa-trash-can"></i></button>
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">&nbsp;</th>
+                                <th scope="row"><button class="btn" id="vista2">Idrante</button></th>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
 
                                 <td style="text-align: center;">
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">&nbsp;</th>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
-                                    <button class="btn btn-outline-danger"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">&nbsp;</th>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-success"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn btn-outline-info"><i
-                                            class="fa-solid fa-circle-info"></i></button>
+                                    <button class="btn btn-outline-info"><a href="Mdl_Idranti.html"
+                                            style="text-decoration-color: none;"><i
+                                                class="fa-solid fa-circle-info"></i></a></button>
                                     <button class="btn btn-outline-danger"><i
                                             class="fa-solid fa-trash-can"></i></button>
                                     <button class="btn btn-outline-success"><i class="fa-solid fa-print"></i></button>
@@ -390,6 +371,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
           srcSfondo = resp[0].pathSfondo;
           for(let i = 0; i < resp.length; i++){
+            var nome_prod = resp[i].nome_prod;
             var posX = resp[i].posX;
             var posY = resp[i].posY;
             var src = "";
@@ -401,7 +383,9 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
               image: imageObj,
               width: 50,
               height: 50,
-              draggable: false
+              draggable: false,
+              id: resp[i].id_prod,
+              name: nome_prod
             });
             group.add(image);
           }
@@ -431,6 +415,49 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
         y: pointer.y - mousePointTo.y * newScale,
       };
       stage.position(newPos);
+    });
+
+    $('#vista').click(function(){
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        if(group.children[i].attrs.name != 'estintore'){
+          prova.visible(false);
+        } else {
+          prova.visible(true);
+        }
+      }
+    });
+    $('#vista2').click(function(){
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        if(group.children[i].attrs.name != 'idrante'){
+          prova.visible(false);
+        } else {
+          prova.visible(true);
+        }
+      }
+    });
+    $('#viewAll').click(function(){
+      for(let i = 0; i < group.children.length; i++){
+        var prova = group.children[i];
+        prova.visible(true);
+      }
+    });
+
+    $('#stampaPDFPlan').click(function(){
+      var nomeAz = '<?php echo $arrayAna['nomeAzienda']; ?>';
+      var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
+      stage.find('Image').forEach((image) => {
+        pdf.addImage(
+          stage.toDataURL({ pixelRatio: 1 }),
+          0,
+          0,
+          stage.width(),
+          stage.height()
+        );
+      });
+
+      pdf.save('planimetria' + nomeAz + '.pdf');
     });
     </script>
 </body>

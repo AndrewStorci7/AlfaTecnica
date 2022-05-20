@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 12, 2022 alle 19:52
+-- Creato il: Mag 14, 2022 alle 09:58
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -38,11 +38,11 @@ CREATE TABLE `anagrafica` (
   `CAP` int(10) NOT NULL,
   `citta` varchar(50) NOT NULL,
   `provincia` varchar(50) NOT NULL,
-  `telefono1` int(20) DEFAULT NULL,
+  `telefono1` varchar(20) DEFAULT NULL,
   `email1` varchar(50) DEFAULT NULL,
   `rif_personale` text DEFAULT NULL,
-  `telefono2` int(20) DEFAULT NULL,
-  `cellulare` int(20) DEFAULT NULL,
+  `telefono2` varchar(20) DEFAULT NULL,
+  `cellulare` varchar(20) DEFAULT NULL,
   `email2` varchar(50) DEFAULT NULL,
   `noteAziendali` text DEFAULT NULL,
   `noteCliente` text DEFAULT NULL
@@ -53,9 +53,9 @@ CREATE TABLE `anagrafica` (
 --
 
 INSERT INTO `anagrafica` (`id`, `nome`, `sede`, `path_logo`, `indirizzo`, `CAP`, `citta`, `provincia`, `telefono1`, `email1`, `rif_personale`, `telefono2`, `cellulare`, `email2`, `noteAziendali`, `noteCliente`) VALUES
-(1, 'Dallara', 'Varano de Melegari', 'img/loghi/azienda1.png', '', 0, '', '', 0, '', '', 0, 0, '', '', ''),
-(2, 'Bercella', 'Varano de Melegari', 'img/loghi/azienda2.png', '', 0, '', '', 0, '', '', 0, 0, '', '', ''),
-(3, 'NonSoloTabacchi', 'Ozzano Taro', 'img/loghi/azienda3.png', '', 0, '', '', 0, '', '', 0, 0, '', '', '');
+(1, 'Dallara', 'Varano de Melegari', 'img/loghi/azienda1.png', 'Via Provinciale, 33', 43040, 'Varano de Melegari', 'PR', '3408871542', 'dallarastradale@dallara.auto', NULL, '0521887265', '6528716254', NULL, NULL, NULL),
+(2, 'Bercella', 'Varano de Melegari', 'img/loghi/azienda2.png', 'Via Enzo Ferrari, 10', 43040, 'Varano de Melegari', 'PR', '3338765298', 'bercella@bercella.it', NULL, '0521829983', '9992837625', NULL, NULL, NULL),
+(3, 'NonSoloTabacchi', 'Ozzano Taro', 'img/loghi/azienda3.png', 'Via Nazionale, 64', 43044, 'Ozzano Taro', 'PR', '3762983625', 'nonsolotabacchi@gmail.com', NULL, '0521765287', '7725276534', 'tabaccheriaozzano_64@nonsolotabacchi.it', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -79,11 +79,11 @@ INSERT INTO `app` (`idAnagrafica`, `idPlanimetria`, `idProdotto`) VALUES
 (1, 1, 3),
 (1, 1, 4),
 (1, 1, 9),
-(2, 1, 10),
 (2, 3, 5),
 (2, 3, 6),
 (2, 3, 7),
-(2, 3, 8);
+(2, 3, 8),
+(2, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -159,7 +159,7 @@ CREATE TABLE `planimetrie` (
 INSERT INTO `planimetrie` (`id`, `path_img`) VALUES
 (1, 'img/planimetrie/download.png'),
 (2, 'img/planimetrie/checojon-scaled.png'),
-(3, 'img/planimetrie/download.png');
+(3, 'img/planimetrie/planimetrie-case.jpg');
 
 -- --------------------------------------------------------
 
@@ -171,14 +171,14 @@ CREATE TABLE `prodotti` (
   `id` int(11) NOT NULL,
   `pos_x` float NOT NULL,
   `pos_y` float NOT NULL,
-  `id_prodotto` int(11) NOT NULL
+  `idProdImg` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `prodotti`
 --
 
-INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `id_prodotto`) VALUES
+INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `idProdImg`) VALUES
 (1, 223, 502, 1),
 (2, 300, 560, 1),
 (3, 697, 428, 2),
@@ -200,17 +200,18 @@ INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `id_prodotto`) VALUES
 
 CREATE TABLE `prodotti_img` (
   `id` int(11) NOT NULL,
-  `path_img` tinytext NOT NULL
+  `path_img` tinytext NOT NULL,
+  `nome_prodotto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `prodotti_img`
 --
 
-INSERT INTO `prodotti_img` (`id`, `path_img`) VALUES
-(1, 'img/prodotti/estintore.png'),
-(2, 'img/prodotti/sedia.png'),
-(3, 'img/prodotti/tavolo.png');
+INSERT INTO `prodotti_img` (`id`, `path_img`, `nome_prodotto`) VALUES
+(1, 'img/prodotti/estintore.png', 'estintore'),
+(2, 'img/prodotti/sedia.png', 'sedia'),
+(3, 'img/prodotti/tavolo.png', 'tavolo');
 
 -- --------------------------------------------------------
 
@@ -349,7 +350,7 @@ ALTER TABLE `planimetrie`
 --
 ALTER TABLE `prodotti`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_prodotto` (`id_prodotto`);
+  ADD KEY `FK_prodotti_img` (`idProdImg`) USING BTREE;
 
 --
 -- Indici per le tabelle `prodotti_img`
@@ -496,7 +497,7 @@ ALTER TABLE `d_q`
 -- Limiti per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`id_prodotto`) REFERENCES `prodotti_img` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `prodotti_ibfk_1` FOREIGN KEY (`idProdImg`) REFERENCES `prodotti_img` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `p_d`
@@ -511,6 +512,12 @@ ALTER TABLE `p_d`
 ALTER TABLE `p_q`
   ADD CONSTRAINT `p_q_ibfk_1` FOREIGN KEY (`idProdotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `p_q_ibfk_2` FOREIGN KEY (`idQuestionario`) REFERENCES `questionario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `revisioni`
+--
+ALTER TABLE `revisioni`
+  ADD CONSTRAINT `revisioni_ibfk_1` FOREIGN KEY (`idProdotto`) REFERENCES `prodotti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `ris_rev`
