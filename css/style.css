@@ -3,6 +3,14 @@
 html{
     font-family: 'Lato', sans-serif;
 }
+/* AndrewDrink */
+:root{
+  --clrBtnStampaPlan: #2298B0;
+  --clrHoverInfo: #9EEBFA;
+  --clrHoverDelete: #F0A8AF;
+  --Transparent: transparent;
+}
+/*AndrewDrink */
 
 /* LOGIN */
 
@@ -201,44 +209,69 @@ h4 {
 }
 
 /* Andrew drink */
-#planimetria{
-  height: 700px;
-  overflow: auto;
+.prova{
+  height: 800px;
+  overflow: hidden;
   /*background-image: url('download.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;*/
-  border: 2px solid black;
+  border: 4px solid grey;
+  border-radius: 5px;
 }
 #menu {
   display: none;
   position: absolute;
   width: 100px;
-  background-color: white;
-  box-shadow: 0 0 5px grey;
-  border-radius: 3px;
+  /*background-color: var(--transparent);*/
+  box-shadow: 0 10px 10px 0 grey;
+  border-radius: 5px;
 }
 #menu button {
   width: 100%;
-  background-color: white;
-  border: none;
+  /*background-color: var(--Transparent);*/
   margin: 0;
   padding: 10px;
 }
-#menu button:hover {
-  background-color: lightgray;
+#pulse-button{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  border-top: .3px solid lightgray;
+  background-color: var(--bs-info);
+  border-radius: 5px 5px 0 0;
+  transition: background .2s linear;
+}
+#pulse-button:hover{
+  background-color: var(--clrHoverInfo);
+  transition: all .2s linear;
+}
+#delete-button{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  border-bottom: .3px solid lightgray;
+  background-color: var(--bs-danger);
+  border-radius: 0 0 5px 5px;
+  transition: background .2s linear;
+}
+#delete-button:hover{
+  background-color: var(--clrHoverDelete);
+  transition: all .2s linear;
 }
 #button{
   text-align: right;
 }
 #viewAll {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 7px;
+  left: 7px;
   width: auto;
 }
 #stampaPDFPlan{
-  float: right;
+  background-color: var(--clrBtnStampaPlan);
+  width: 55px;
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
 }
 /* Andrew drink */
 

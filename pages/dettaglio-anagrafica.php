@@ -233,11 +233,11 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
     </div>
     <div class="container">
         <div class="row row-immagine">
-            <div class="div-immagine" id="planimetria">
+            <div class="div-immagine prova" id="planimetria">
 
             </div>
             <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
-            <button class="stampa" id="stampaPDFPlan">Stampa PDF</button>
+            <button class="stampa" id="stampaPDFPlan"><i class="fa-solid fa-print"></i></button>
         </div>
     </div>
     <div class="container">
@@ -340,12 +340,14 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
 
     var layerSfondo = new Konva.Layer({
       scaleX: 1,
-      scaleY: 1
+      scaleY: 1,
+      draggable: true
     });
     stage.add(layerSfondo);
     var layer = new Konva.Layer({
       scaleX: 1,
-      scaleY: 1
+      scaleY: 1,
+      draggable: true
     });
     stage.add(layer);
 

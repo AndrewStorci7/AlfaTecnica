@@ -6,41 +6,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://unpkg.com/konva@8.3.5/konva.min.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
   </head>
-  <style media="screen">
-    .prova{
-      height: 800px;
-      overflow: auto;
-      /*background-image: url('download.png');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;*/
-      border: 2px solid black;
-    }
-    #menu {
-      display: none;
-      position: absolute;
-      width: 100px;
-      background-color: white;
-      box-shadow: 0 0 5px grey;
-      border-radius: 3px;
-    }
-    #menu button {
-      width: 100%;
-      background-color: white;
-      border: none;
-      margin: 0;
-      padding: 10px;
-    }
-    #menu button:hover {
-      background-color: lightgray;
-    }
-    #button{
-      text-align: right;
-    }
-  </style>
   <body>
-    <div class="container prova" id="planimetria"></div>
+    <div class="container">
+        <div class="row row-immagine">
+            <div class="div-immagine prova" id="planimetria"><div class="konvajs-content" role="presentation" style="position: relative; user-select: none; width: 1316px; height: 696px;"><canvas width="1316" height="696" style="padding: 0px; margin: 0px; border: 0px; background: transparent; position: absolute; top: 0px; left: 0px; width: 1316px; height: 696px; display: block;"></canvas><canvas width="1316" height="696" style="padding: 0px; margin: 0px; border: 0px; background: transparent; position: absolute; top: 0px; left: 0px; width: 1316px; height: 696px; display: block;"></canvas></div></div>
+            <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
+            <button class="stampa" id="stampaPDFPlan">stmp</button>
+        </div>
+    </div>
     <div id="menu">
       <div>
         <button id="pulse-button">Visualizza</button
@@ -51,39 +26,43 @@
       <button type="button" name="addObj" id="button">Aggiungi prodotto</button>
       <select class="select" name="tipoProdotto" id="select">
         <option value="0" id="nullo">Scegli un prodotto</option>
-        <option value="1" id="estintore">Estintori</option>
-        <option value="2" id="sedia">Sedia</option>
-        <option value="3" id="tavolo">Tavolo</option>
+        <option value="1" id="estintore">Estintore</option>
+        <option value="2" id="sedia">Idrante</option>
+        <option value="3" id="tavolo">Sedia</option>
+        <option value="4" id="tavolo">Tavolo</option>
       </select>
     </div>
 
     <script type="text/javascript">
       var src = "";
-      var idProdotto = 0;
       var count = 0;
       var check = 0;
+      var idReturn = 0;
+      var idProdotto = 0;
       var sfondo = new Image();
-      sfondo.src = "img/download.png";
+      sfondo.src = "img/planimetrie/checojon-scaled.png";
 
       $('#select').change(function(){
         check = $("#select option:selected").val();
         if(check == 1){
           idProdotto = 1;
-          src = "img/estintore.png";
+          src = "img/prodotti/estintore_click.png";
         } else if(check == 2){
           idProdotto = 2;
-          src = "img/sedia.png";
+          src = "img/prodotti/idrante.png";
         } else if(check == 3){
           idProdotto = 3;
-          src = "img/tavolo.png";
+          src = "img/prodotti/sedia.png";
+        } else if(check == 4){
+          idProdotto = 4;
+          src = "img/prodotti/tavolo.png";
         }
-        //src = "img/" + $("#select option:selected").val();
       });
       var div = document.getElementById('planimetria');
       var stage = new Konva.Stage({
         container: 'planimetria',
-        width: div.clientWidth + 300,
-        height: div.clientHeight + 300
+        width: div.clientWidth,
+        height: div.clientHeight
       });
 
       var layerSfondo = new Konva.Layer({
@@ -119,14 +98,17 @@
 
       });
 
-      document.getElementById('delete-button').addEventListener('click', (idProd) => {
-        currentShape.destroy();
-        $.post('deleteProduct.php', {idProd:idProd}, function(resp){
-          if(resp == 1)
+      document.getElementById('delete-button').addEventListener('click', (prodotto) => {
+        var idDlt = currentShape.attrs.id;
+        $.post('php/deleteProduct.php', {id:idDlt}, function(resp){
+          if(resp == 1){
             alert('Prodotto eliminato');
-          else if(resp == 0)
-            alert('Prodotto non eliminato');
+            currentShape.destroy();
+          } else if(resp == 0) {
+              alert('Prodotto non eliminato');
+          }
         }, 'json');
+
       });
       window.addEventListener('click', () => {
         menuNode.style.display = 'none';
@@ -139,34 +121,36 @@
         currentShape = e.target;
         menuNode.style.display = 'initial';
         var containerRect = stage.container().getBoundingClientRect();
-        menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 4 + 'px';
-        menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 4 + 'px';
+        menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 5 + 'px';
+        menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 15 + 'px';
       });
 
       var arr = new Array();
       stage.on('dblclick', function(){
-        if(!check == 0){
-          count++;
-          var pos = group.getRelativePointerPosition();
-          var posX = parseFloat(pos.x -20);
-          var posY = parseFloat(pos.y -20);
-          var imageObj = new Image();
-          imageObj.src = src;
-          var image = new Konva.Image({
-            x: posX,
-            y: posY,
-            image: imageObj,
-            width: 50,
-            height: 50,
-            draggable: false,
-            id: count
-          });
-          group.add(image);
-          alert(posX + " " + posY + " " + idProdotto);
-          $.post('addProduct.php', {posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
-            //alert('Prodotto aggiunto');
-          }, 'json');
-        }
+        $.post('php/checkId.php', {}, function(resp){
+          idReturn = resp;
+          if(!check == 0){
+            var pos = group.getRelativePointerPosition();
+            var posX = parseFloat(pos.x -20);
+            var posY = parseFloat(pos.y -20);
+            var imageObj = new Image();
+            imageObj.src = src;
+            var image = new Konva.Image({
+              x: posX,
+              y: posY,
+              image: imageObj,
+              width: 50,
+              height: 50,
+              draggable: false,
+              id: idReturn
+            });
+            group.add(image);
+            console.log(image.attrs.id);
+            $.post('php/addProduct.php', {id:idReturn, posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
+              alert('Prodotto aggiunto');
+            }, 'json');
+          }
+        }, 'json');
       });
 
       var scaleBy = 1.05;
@@ -192,6 +176,7 @@
         };
         stage.position(newPos);
       });
+
     </script>
 
   </body>
