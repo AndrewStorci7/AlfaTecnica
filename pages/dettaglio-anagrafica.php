@@ -115,7 +115,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-city fa-2xs" style="margin-right: 10px;"></i>Città
                             - Cap:</h4>
-                            <p class="card-text"><?php echo $arrayAna['citta']; ?> - <?php echo $arrayAna['cap']; ?></p>
+                            <p class="card-text"><?php echo $arrayAna['citta'] . " - " . $arrayAna['cap']; ?></p>
                     </div>
                 </div>
             </div>
