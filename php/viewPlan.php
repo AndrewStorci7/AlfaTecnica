@@ -13,18 +13,25 @@ if(!$idAnag == 0){
   $result = $pdo->query($select);
   $arr = array();
   $i = 0;
-  while($row = $result->fetch(PDO::FETCH_ASSOC)){
-    $arr[$i] = array(
-      'id_prod' => $row['id'],
-      'nome_prod' => $row['nome_prodotto'],
-      'posX' => $row['pos_x'],
-      'posY' => $row['pos_y'],
-      'pathProd' => $row['pathProd'],
-      'pathSfondo' => $row['pathSfondo']
-    );
-    $i++;
+  if($result){
+    while($row = $result->fetch(PDO::FETCH_ASSOC)){
+      $arr[$i] = array(
+        'id_prod' => $row['id'],
+        'nome_prod' => $row['nome_prodotto'],
+        'posX' => $row['pos_x'],
+        'posY' => $row['pos_y'],
+        'pathProd' => $row['pathProd'],
+        'pathSfondo' => $row['pathSfondo']
+      );
+      $i++;
+    }
+    $json = json_encode($arr);
+    echo $json;
+  } else {
+    $arr = [
+      'dati' => 'Nessun dato trovato',
+      'msg' => 'Planimetria ancora da configurare'
+    ];
   }
-  $json = json_encode($arr);
-  echo $json;
 }
  ?>
