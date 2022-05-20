@@ -24,8 +24,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       'nc' => $row['noteCliente']
     ];
   }
-
-
+  
  ?>
 <html>
 
