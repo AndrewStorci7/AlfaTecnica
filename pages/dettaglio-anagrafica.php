@@ -24,7 +24,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       'nc' => $row['noteCliente']
     ];
   }
-  
+
  ?>
 <html>
 
@@ -334,8 +334,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
     var div = document.getElementById('planimetria');
     var stage = new Konva.Stage({
       container: 'planimetria',
-      width: div.clientWidth + 300,
-      height: div.clientHeight + 300
+      width: div.clientWidth,
+      height: div.clientHeight
     });
 
     var layerSfondo = new Konva.Layer({
@@ -357,39 +357,51 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
       scaleX: 1
     });
     layer.add(group);
-    var sonfoImg = new Konva.Image({
+    var sfondoImg = new Konva.Image({
       image: sfondo,
       width: div.clientWidth,
       height: div.clientHeight,
       draggable: false
     });
-    groupSfondo.add(sonfoImg);
+    groupSfondo.add(sfondoImg);
 
     var srcSfondo = "";
     $(window).on('load', function(){
       console.log('ciao');
       $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
-          srcSfondo = resp[0].pathSfondo;
-          for(let i = 0; i < resp.length; i++){
-            var nome_prod = resp[i].nome_prod;
-            var posX = resp[i].posX;
-            var posY = resp[i].posY;
-            var src = "";
-            var imageObj = new Image();
-            imageObj.src = "../" + resp[i].pathProd;
-            var image = new Konva.Image({
-              x: posX,
-              y: posY,
-              image: imageObj,
-              width: 50,
-              height: 50,
-              draggable: false,
-              id: resp[i].id_prod,
-              name: nome_prod
+          if(resp != ''){
+            srcSfondo = resp[0].pathSfondo;
+            for(let i = 0; i < resp.length; i++){
+              var nome_prod = resp[i].nome_prod;
+              var posX = resp[i].posX;
+              var posY = resp[i].posY;
+              var src = "";
+              var imageObj = new Image();
+              imageObj.src = "../" + resp[i].pathProd;
+              var image = new Konva.Image({
+                x: posX,
+                y: posY,
+                image: imageObj,
+                width: 50,
+                height: 50,
+                draggable: false,
+                id: resp[i].id_prod,
+                name: nome_prod
+              });
+              group.add(image);
+            }
+            sfondo.src = "../" + srcSfondo;
+          } else {
+            var text = new Konva.Text({
+              align: 'center',
+              verticalAlign: 'middle',
+              fontSize: 40,
+              text: 'Nessun dato trovato',
+              width: div.clientWidth,
+              height: div.clientHeight
             });
-            group.add(image);
+            layer.add(text);
           }
-          sfondo.src = "../" + srcSfondo;
       }, 'json');
 
     });

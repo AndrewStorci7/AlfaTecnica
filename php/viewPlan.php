@@ -25,13 +25,13 @@ if(!$idAnag == 0){
       );
       $i++;
     }
-    $json = json_encode($arr);
-    echo $json;
   } else {
     $arr = [
       'dati' => 'Nessun dato trovato',
       'msg' => 'Planimetria ancora da configurare'
     ];
   }
+  $json = json_encode($arr);
+  echo $json;
 }
  ?>
