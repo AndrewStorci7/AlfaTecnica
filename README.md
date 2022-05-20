@@ -10,6 +10,15 @@ esso, inoltre, dovrà avere una posizione assoluta ... ovvero se io ingrandisco 
 **FUNZIONALITÀ AGGIUNTIVA**: <br>
 Se io clicco col mouse su un estintore, esso mi deve reindirizzare alla pagina delle caratteristiche dell'estintore.
 
+# Richieste svolte:
+- [x] Realizzazione di uno script che al doppioclick su una planimetria aggiunga un prodotto (scelto da un menù a tendina);
+- [x] Realizzazione dela visualizzazione dinamica delle planimetrie con i rispettivi prodotti; 
+- [x] Realizzazione di un pulsante che stampa un pdf della planimetria con i prodotti ;
+- [x] Realizzazione dei bottoni che evidenziano i prodotti cliccati;
+- [ ] Realizzazione della barra di ricerca per i prodotti;
+- [ ] Realizzazione dei pop-up dei prodotti (Lavoro ancora in corso).
+- [x] Aggiornamento del DataBase;
+
 # PRENDERE SPUNTO
 [Canvas relative position on zooming](https://konvajs.org/docs/sandbox/Zooming_Relative_To_Pointer.html)<br>
 [Contenxt Menu on Mouse R click](https://konvajs.org/docs/sandbox/Canvas_Context_Menu.html)<br>
