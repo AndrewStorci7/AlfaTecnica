@@ -3,6 +3,15 @@
 html{
     font-family: 'Lato', sans-serif;
 }
+/* AndrewDrink */
+:root{
+  --clrBtnStampaPlan: #2298B0;
+  --clrHoverInfo: #9EEBFA;
+  --clrHoverDelete: #F0A8AF;
+  --clrHoverModifica: #86E9BB;
+  --Transparent: transparent;
+}
+/*AndrewDrink */
 
 /* LOGIN */
 
@@ -201,35 +210,130 @@ h4 {
 }
 
 /* Andrew drink */
-#planimetria{
+.prova{
   height: 700px;
-  overflow: auto;
+  overflow: hidden;
   /*background-image: url('download.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;*/
-  border: 2px solid black;
+  border: 4px solid grey;
+  border-radius: 5px;
 }
 #menu {
   display: none;
   position: absolute;
   width: 100px;
-  background-color: white;
-  box-shadow: 0 0 5px grey;
-  border-radius: 3px;
+  /*background-color: var(--transparent);*/
+  box-shadow: 0 10px 10px 0 grey;
+  border-radius: 5px;
 }
 #menu button {
   width: 100%;
-  background-color: white;
-  border: none;
+  /*background-color: var(--Transparent);*/
   margin: 0;
   padding: 10px;
 }
-#menu button:hover {
-  background-color: lightgray;
+.menu-stage-info{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  border-top: .3px solid lightgray;
+  background-color: var(--bs-info);
+  border-radius: 5px 5px 0 0;
+  transition: background .2s linear;
+}
+.menu-stage-info:hover{
+  background-color: var(--clrHoverInfo);
+  transition: all .2s linear;
+}
+.menu-stage-modifica{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  background-color: var(--bs-green);
+  transition: background .2s linear;
+}
+.menu-stage-modifica:hover{
+  background-color: var(--clrHoverModifica);
+  transition: all .2s linear;
+}
+.menu-stage-elimina{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  border-bottom: .3px solid lightgray;
+  background-color: var(--bs-danger);
+  border-radius: 0 0 5px 5px;
+  transition: background .2s linear;
+}
+.menu-stage-elimina:hover{
+  background-color: var(--clrHoverDelete);
+  transition: all .2s linear;
+}
+.fix-btn-conf{
+  border-radius: 5px 5px 0 0 !important;
+  border-top: .3px solid lightgray;
+}
+.btn-annulla{
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  width: auto;
+  display: none;
+}
+.btn-conf{
+  position: absolute;
+  top: 1%;
+  right: 10%;
+  width: auto;
+  display: none;
 }
 #button{
   text-align: right;
+}
+#viewAll {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: auto;
+}
+#stampaPDFPlan{
+  background-color: var(--clrBtnStampaPlan);
+  width: 55px;
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+}
+.modifica{
+  float: right;
+}
+.success-action{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  background-color: var(--bs-teal);
+  width: auto;
+  height: auto;
+  padding: 4px;
+  -webkit-box-shadow: outset 0px 0px 10px 10px grey;
+  box-shadow: outset 0px 0px 10px 10px grey;
+  z-index: 10px;
+  margin: -50px 0 0 -130px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease-in-out;
+}
+.shadow{
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .5s ease-in-out;
+}
+.mrg-btn{
+  margin: 5px;
+}
+@media screen and (max-width: 992px) {
+  .div-immagine{
+    height: 500px;
+  }
 }
 /* Andrew drink */
 
@@ -238,10 +342,14 @@ h4 {
         display: block!important;
         text-align: center;
     }
-
-    .div-immagine, .nome-azienda{
+    .nome-azienda{
         display: none!important;
     }
+    /* AndrewDrink */
+    .div-immagine{
+      height: 400px;
+    }
+    /* AndrewDrink */
 }
 
 .stampa{

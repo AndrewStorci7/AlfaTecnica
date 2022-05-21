@@ -1,11 +1,11 @@
 <?php
 require_once('connessione.php');
 
-$query="SELECT id, nome, sede, path_logo FROM anagrafica";
-$risultato=$pdo->query($query);
-$array = array( );
-$i=0;
-//if(count($risultato) > 0){
+$query = "SELECT id, nome, sede, path_logo FROM anagrafica";
+$risultato = $pdo->query($query);
+$array = array();
+$i = 0;
+if($risultato){
   while($row = $risultato->fetch(PDO::FETCH_ASSOC)){
     $array[$i] = array(
       "id" => $row["id"],
@@ -15,6 +15,11 @@ $i=0;
     );
     $i++;
   }
-//}
+} else {
+  $array = [
+    "dati" => 'Nessun dato trovato',
+    "err" => 'La query non ha resituito nessun dato'
+  ];
+}
 echo json_encode($array);
 ?>
