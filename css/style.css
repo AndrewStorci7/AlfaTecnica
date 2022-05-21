@@ -210,7 +210,7 @@ h4 {
 
 /* Andrew drink */
 .prova{
-  height: 800px;
+  height: 700px;
   overflow: hidden;
   /*background-image: url('download.png');
   background-repeat: no-repeat;
@@ -295,6 +295,12 @@ h4 {
   opacity: 1;
   transition: opacity .5s ease-in-out;
 }
+
+@media screen and (max-width: 992px) {
+  .div-immagine{
+    height: 500px;
+  }
+}
 /* Andrew drink */
 
 @media screen and (max-width: 960px) {
@@ -302,10 +308,14 @@ h4 {
         display: block!important;
         text-align: center;
     }
-
-    .div-immagine, .nome-azienda{
+    .nome-azienda{
         display: none!important;
     }
+    /* AndrewDrink */
+    .div-immagine{
+      height: 400px;
+    }
+    /* AndrewDrink */
 }
 
 .stampa{

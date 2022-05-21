@@ -46,7 +46,7 @@
       var idReturn = 0;
       var idProdotto = 0;
       var sfondo = new Image();
-      sfondo.src = "img/planimetrie/checojon-scaled.png";
+      sfondo.src = "img/planimetrie/planimetrie-case.jpg";
 
       $('#select').change(function(){
         check = $("#select option:selected").val();
@@ -73,12 +73,14 @@
 
       var layerSfondo = new Konva.Layer({
         scaleX: 1,
-        scaleY: 1
+        scaleY: 1,
+        draggable: true
       });
       stage.add(layerSfondo);
       var layer = new Konva.Layer({
         scaleX: 1,
-        scaleY: 1
+        scaleY: 1,
+        draggable: true
       });
       stage.add(layer);
 
@@ -101,12 +103,15 @@
       let currentShape;
       var menuNode = document.getElementById('menu');
       document.getElementById('pulse-button').addEventListener('click', () => {
-
+        /* DA DEFINIRE */
       });
 
       $('#leave-div').click(function(){ $('.success-delete').removeClass('shadow'); });
 
-      document.getElementById('delete-button').addEventListener('click', (prodotto) => {
+      /* FUNCTION
+        Al click del bottone "ELIMINA" sulla planimetria elimina il prodotto.
+        File php: deleteProduct.php  */
+      document.getElementById('delete-button').addEventListener('click', () => {
         var idDlt = currentShape.attrs.id;
         $.post('php/deleteProduct.php', {id:idDlt}, function(resp){
           if(resp == 1){
@@ -116,8 +121,10 @@
               alert('Prodotto non eliminato');
           }
         }, 'json');
-
       });
+
+      /* Funzione correlata a quella del menu.
+        Se clicco su qualsiasi parte dello schermo il menu si toglie.  */
       window.addEventListener('click', () => {
         menuNode.style.display = 'none';
       });
