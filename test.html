@@ -12,24 +12,24 @@
     <div class="container">
         <div class="row row-immagine">
             <div class="div-immagine prova" id="planimetria"><div class="konvajs-content" role="presentation" style="position: relative; user-select: none; width: 1316px; height: 696px;"><canvas width="1316" height="696" style="padding: 0px; margin: 0px; border: 0px; background: transparent; position: absolute; top: 0px; left: 0px; width: 1316px; height: 696px; display: block;"></canvas><canvas width="1316" height="696" style="padding: 0px; margin: 0px; border: 0px; background: transparent; position: absolute; top: 0px; left: 0px; width: 1316px; height: 696px; display: block;"></canvas></div></div>
-            <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
-            <button class="stampa" id="stampaPDFPlan">stmp</button>
+            <!--<button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>-->
+            <!--<button class="stampa" id="stampaPDFPlan">stmp</button>-->
+            <button class="btn btn-success btn-conf" id="conferma-btn-mod">Conferma</button>
+            <button class="btn btn-danger btn-annulla" id="annulla-btn-mod">Annulla</button>
         </div>
-        <div class="success-delete" id="leave-div">
+        <div class="success-action" id="leave-div">
           <div>
-            <h5><b>Prodoto eliminato con successo!<b></h5>
+            <h5 id="msg"><b><b></h5>
             <p style="text-align: center; font-size: 10px;">Cliccaci sopra per toglierlo</p>
           </div>
         </div>
     </div>
     <div id="menu">
-      <div>
-        <button id="pulse-button">Visualizza</button
-        ><button id="delete-button">Elimina</button>
-      </div>
+
     </div>
     <div class="container">
-      <button type="button" name="addObj" id="button">Aggiungi prodotto</button>
+      <!--<button class="btn btn-outline-info mrg-btn" type="button" name="addObj" id="button">Aggiungi prodotto</button>-->
+      <p>Seleziona un prodotto per aggiungerlo</p>
       <select class="select" name="tipoProdotto" id="select">
         <option value="0" id="nullo">Scegli un prodotto</option>
         <option value="1" id="estintore">Estintore</option>
@@ -37,9 +37,16 @@
         <option value="3" id="tavolo">Sedia</option>
         <option value="4" id="tavolo">Tavolo</option>
       </select>
+      <!--<button type="button" name="button" class="btn btn-outline-success modifica mrg-btn">Modifica</button>-->
     </div>
 
     <script type="text/javascript">
+      var divMenu = '<div>' +
+                              '<button class="btn-menu-stage menu-stage-info" id="info-button">Visualizza</button>' +
+                              '<button class="btn-menu-stage menu-stage-modifica" id="modifica-button">Modifica</button>' +
+                              '<button class="btn-menu-stage menu-stage-elimina" id="delete-button">Elimina</button>' +
+                            '</div>';
+      var isModificando = false;
       var src = "";
       var count = 0;
       var check = 0;
@@ -96,32 +103,15 @@
         image: sfondo,
         width: div.clientWidth,
         height: div.clientHeight,
+        name: 'plan',
         draggable: false
       });
       groupSfondo.add(sfondoImg);
 
       let currentShape;
       var menuNode = document.getElementById('menu');
-      document.getElementById('pulse-button').addEventListener('click', () => {
-        /* DA DEFINIRE */
-      });
 
-      $('#leave-div').click(function(){ $('.success-delete').removeClass('shadow'); });
-
-      /* FUNCTION
-        Al click del bottone "ELIMINA" sulla planimetria elimina il prodotto.
-        File php: deleteProduct.php  */
-      document.getElementById('delete-button').addEventListener('click', () => {
-        var idDlt = currentShape.attrs.id;
-        $.post('php/deleteProduct.php', {id:idDlt}, function(resp){
-          if(resp == 1){
-            currentShape.destroy();
-            $('.success-delete').addClass('shadow');
-          } else if(resp == 0) {
-              alert('Prodotto non eliminato');
-          }
-        }, 'json');
-      });
+      $('#leave-div').click(function(){ $('.success-action').removeClass('shadow'); });
 
       /* Funzione correlata a quella del menu.
         Se clicco su qualsiasi parte dello schermo il menu si toglie.  */
@@ -130,42 +120,119 @@
       });
 
       stage.on('contextmenu', function (e) {
-        e.evt.preventDefault();
-        if (e.target === stage)
-          return;
-        currentShape = e.target;
-        menuNode.style.display = 'initial';
-        var containerRect = stage.container().getBoundingClientRect();
-        menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 5 + 'px';
-        menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 15 + 'px';
+        if(!isModificando){
+          menuNode.innerHTML = divMenu;
+          e.evt.preventDefault();
+          if (e.target === stage)
+            return;
+          currentShape = e.target;
+          menuNode.style.display = 'initial';
+          var containerRect = stage.container().getBoundingClientRect();
+          menuNode.style.top = containerRect.top + stage.getPointerPosition().y + 5 + 'px';
+          menuNode.style.left = containerRect.left + stage.getPointerPosition().x + 15 + 'px';
+        }
+
+        document.getElementById('info-button').addEventListener('click', () => {
+          /* DA DEFINIRE */
+        });
+
+        /* FUNCTION
+          Al click del bottone "ELIMINA" sulla planimetria elimina il prodotto.
+          File php: deleteProduct.php  */
+        document.getElementById('delete-button').addEventListener('click', () => {
+          var idDlt = currentShape.attrs.id;
+          $.post('php/deleteProduct.php', {id:idDlt}, function(resp){
+            if(resp == 1){
+              currentShape.destroy();
+              $('.success-action').addClass('shadow');
+              $('#msg').text('Prodotto eliminato con successo!');
+            } else if(resp == 0) {
+                alert('Prodotto non eliminato');
+            }
+          }, 'json');
+        });
+
+        document.getElementById('modifica-button').addEventListener('click', () => {
+          var oldPosX = 0;
+          var oldPosY = 0;
+          var idUpd = 0;
+          if(currentShape.attrs.name == 'plan'){
+            alert('Devi selezionare un prodotto');
+          } else {
+            oldPosX = currentShape.attrs.x;
+            oldPosY = currentShape.attrs.y;
+            idUpd = currentShape.attrs.id;
+            isModificando = true;
+            currentShape.setAttrs({
+              draggable: true,
+              opacity: 0.5
+            });
+            $('#conferma-btn-mod, #annulla-btn-mod').css('display', 'block');
+          }
+
+          $('#conferma-btn-mod').click(function(){
+            var posXupd = currentShape.attrs.x;
+            var posYupd = currentShape.attrs.y;
+            $.post('php/updateProduct.php', {id:idUpd, newPosX:posXupd, newPosY:posYupd}, function(resp){
+              if(resp == 1){
+                currentShape.setAttrs({
+                  opacity: 1,
+                  draggable: false
+                });
+                $('.success-action').addClass('shadow');
+                $('#msg').text('Prodotto modificato con successo!');
+              } else if(resp == 0) {
+                  alert('Prodotto non modificato');
+              }
+              $('#conferma-btn-mod, #annulla-btn-mod').css('display', 'none');
+              isModificando = false;
+            }, 'json');
+          });
+
+          $('#annulla-btn-mod').click(function(){
+            currentShape.setAttrs({
+              x: oldPosX,
+              y: oldPosY,
+              opacity: 1,
+              draggable: false
+            });
+            $('#conferma-btn-mod, #annulla-btn-mod').css('display', 'none');
+            isModificando = false;
+          });
+        });
+
       });
 
       var arr = new Array();
       stage.on('dblclick', function(){
-        $.post('php/checkId.php', {}, function(resp){
-          idReturn = resp;
-          if(!check == 0){
-            var pos = group.getRelativePointerPosition();
-            var posX = parseFloat(pos.x -20);
-            var posY = parseFloat(pos.y -20);
-            var imageObj = new Image();
-            imageObj.src = src;
-            var image = new Konva.Image({
-              x: posX,
-              y: posY,
-              image: imageObj,
-              width: 50,
-              height: 50,
-              draggable: false,
-              id: idReturn
-            });
-            group.add(image);
-            console.log(image.attrs.id);
-            $.post('php/addProduct.php', {id:idReturn, posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
-              alert('Prodotto aggiunto');
-            }, 'json');
-          }
-        }, 'json');
+        if(isModificando){
+          return;
+        } else {
+          $.post('php/checkId.php', {}, function(resp){
+            idReturn = resp;
+            if(!check == 0){
+              var pos = group.getRelativePointerPosition();
+              var posX = parseFloat(pos.x -20);
+              var posY = parseFloat(pos.y -20);
+              var imageObj = new Image();
+              imageObj.src = src;
+              var image = new Konva.Image({
+                x: posX,
+                y: posY,
+                image: imageObj,
+                width: 50,
+                height: 50,
+                draggable: false,
+                id: idReturn
+              });
+              group.add(image);
+              console.log(image.attrs.id);
+              $.post('php/addProduct.php', {id:idReturn, posX:posX, posY:posY, idProdotto:idProdotto}, function(resp){
+                alert('Prodotto aggiunto');
+              }, 'json');
+            }
+          }, 'json');
+        }
       });
 
       var scaleBy = 1.05;

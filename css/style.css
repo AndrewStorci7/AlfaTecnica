@@ -8,6 +8,7 @@ html{
   --clrBtnStampaPlan: #2298B0;
   --clrHoverInfo: #9EEBFA;
   --clrHoverDelete: #F0A8AF;
+  --clrHoverModifica: #86E9BB;
   --Transparent: transparent;
 }
 /*AndrewDrink */
@@ -233,7 +234,7 @@ h4 {
   margin: 0;
   padding: 10px;
 }
-#pulse-button{
+.menu-stage-info{
   border-left: .3px solid lightgray;
   border-right: .3px solid lightgray;
   border-top: .3px solid lightgray;
@@ -241,11 +242,21 @@ h4 {
   border-radius: 5px 5px 0 0;
   transition: background .2s linear;
 }
-#pulse-button:hover{
+.menu-stage-info:hover{
   background-color: var(--clrHoverInfo);
   transition: all .2s linear;
 }
-#delete-button{
+.menu-stage-modifica{
+  border-left: .3px solid lightgray;
+  border-right: .3px solid lightgray;
+  background-color: var(--bs-green);
+  transition: background .2s linear;
+}
+.menu-stage-modifica:hover{
+  background-color: var(--clrHoverModifica);
+  transition: all .2s linear;
+}
+.menu-stage-elimina{
   border-left: .3px solid lightgray;
   border-right: .3px solid lightgray;
   border-bottom: .3px solid lightgray;
@@ -253,9 +264,27 @@ h4 {
   border-radius: 0 0 5px 5px;
   transition: background .2s linear;
 }
-#delete-button:hover{
+.menu-stage-elimina:hover{
   background-color: var(--clrHoverDelete);
   transition: all .2s linear;
+}
+.fix-btn-conf{
+  border-radius: 5px 5px 0 0 !important;
+  border-top: .3px solid lightgray;
+}
+.btn-annulla{
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  width: auto;
+  display: none;
+}
+.btn-conf{
+  position: absolute;
+  top: 1%;
+  right: 10%;
+  width: auto;
+  display: none;
 }
 #button{
   text-align: right;
@@ -273,7 +302,10 @@ h4 {
   bottom: 7px;
   right: 7px;
 }
-.success-delete{
+.modifica{
+  float: right;
+}
+.success-action{
   position: absolute;
   top: 10%;
   left: 50%;
@@ -295,7 +327,9 @@ h4 {
   opacity: 1;
   transition: opacity .5s ease-in-out;
 }
-
+.mrg-btn{
+  margin: 5px;
+}
 @media screen and (max-width: 992px) {
   .div-immagine{
     height: 500px;
