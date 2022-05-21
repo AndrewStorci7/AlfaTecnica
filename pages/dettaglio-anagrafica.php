@@ -470,8 +470,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
           stage.height()
         );
       });
-
       pdf.save('planimetria' + nomeAz + '.pdf');
+      //window.location.href = '../PDF/planimetria' + nomeAz + '.pdf';
     });
     </script>
 </body>

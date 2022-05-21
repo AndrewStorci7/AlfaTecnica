@@ -15,6 +15,12 @@
             <button class="stampa" id="viewAll">Visualizza tutti i prodotti</button>
             <button class="stampa" id="stampaPDFPlan">stmp</button>
         </div>
+        <div class="success-delete" id="leave-div">
+          <div>
+            <h5><b>Prodoto eliminato con successo!<b></h5>
+            <p style="text-align: center; font-size: 10px;">Cliccaci sopra per toglierlo</p>
+          </div>
+        </div>
     </div>
     <div id="menu">
       <div>
@@ -98,12 +104,14 @@
 
       });
 
+      $('#leave-div').click(function(){ $('.success-delete').removeClass('shadow'); });
+
       document.getElementById('delete-button').addEventListener('click', (prodotto) => {
         var idDlt = currentShape.attrs.id;
         $.post('php/deleteProduct.php', {id:idDlt}, function(resp){
           if(resp == 1){
-            alert('Prodotto eliminato');
             currentShape.destroy();
+            $('.success-delete').addClass('shadow');
           } else if(resp == 0) {
               alert('Prodotto non eliminato');
           }
