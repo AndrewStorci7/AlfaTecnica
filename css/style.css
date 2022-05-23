@@ -328,7 +328,7 @@ h4 {
   transition: opacity .5s ease-in-out;
 }
 .mrg-btn{
-  margin: 5px;
+  float: right;
 }
 @media screen and (max-width: 992px) {
   .div-immagine{

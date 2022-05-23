@@ -37,7 +37,7 @@
         <option value="3" id="tavolo">Sedia</option>
         <option value="4" id="tavolo">Tavolo</option>
       </select>
-      <!--<button type="button" name="button" class="btn btn-outline-success modifica mrg-btn">Modifica</button>-->
+      <button type="button" name="button" class="btn btn-success mrg-btn" id="salva">Salva</button>
     </div>
 
     <script type="text/javascript">
@@ -53,7 +53,10 @@
       var idReturn = 0;
       var idProdotto = 0;
       var sfondo = new Image();
-      sfondo.src = "img/planimetrie/planimetrie-case.jpg";
+      var div = document.getElementById('planimetria');
+      var w = div.clientWidth;
+      var h = div.clientHeight;
+      sfondo.src = "img/planimetrie/download.png";
 
       $('#select').change(function(){
         check = $("#select option:selected").val();
@@ -71,7 +74,7 @@
           src = "img/prodotti/tavolo.png";
         }
       });
-      var div = document.getElementById('planimetria');
+
       var stage = new Konva.Stage({
         container: 'planimetria',
         width: div.clientWidth,
@@ -220,8 +223,8 @@
                 x: posX,
                 y: posY,
                 image: imageObj,
-                width: 50,
-                height: 50,
+                width: (25 * sfondoImg.attrs.width) / div.clientWidth,
+                height: (25 * sfondoImg.attrs.height) / div.clientHeight,
                 draggable: false,
                 id: idReturn
               });
@@ -233,6 +236,17 @@
             }
           }, 'json');
         }
+      });
+
+      $('#salva').click(function(){
+        console.log(w + " " + h);
+        var idPlan = 1;
+        $.post('php/addProduct.php', {w:w, h:h, idPlan:idPlan}, function(resp){
+          if(resp == 1)
+            alert('Salvato con successo!');
+          else
+            alert('ERRORE nel salvataggio!');
+        }, 'json');
       });
 
       var scaleBy = 1.05;

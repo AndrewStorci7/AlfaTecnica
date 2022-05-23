@@ -369,14 +369,14 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
 
     var srcSfondo = "";
     $(window).on('load', function(){
-      console.log('ciao');
       $.post('../php/viewPlan.php', {idAnag:idAnag}, function(resp){
           if(resp != ''){
             srcSfondo = resp[0].pathSfondo;
             for(let i = 0; i < resp.length; i++){
+              console.log(((resp[i].posX * sfondoImg.attrs.width) / resp[i].w).toPrecision(10));
               var nome_prod = resp[i].nome_prod;
-              var posX = resp[i].posX;
-              var posY = resp[i].posY;
+              var posX = parseFloat(((resp[i].posX * sfondoImg.attrs.width) / resp[i].w).toPrecision(10));
+              var posY = parseFloat(((resp[i].posY * sfondoImg.attrs.height) / resp[i].h).toPrecision(10));
               var src = "";
               var imageObj = new Image();
               imageObj.src = "../" + resp[i].pathProd;
@@ -384,8 +384,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
                 x: posX,
                 y: posY,
                 image: imageObj,
-                width: 50,
-                height: 50,
+                width: (20 * sfondoImg.attrs.width) / resp[i].w,
+                height: (25 * sfondoImg.attrs.height) / resp[i].h,
                 draggable: false,
                 id: resp[i].id_prod,
                 name: nome_prod
