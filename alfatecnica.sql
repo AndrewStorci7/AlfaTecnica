@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 14, 2022 alle 09:58
+-- Creato il: Mag 22, 2022 alle 21:05
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -79,11 +79,18 @@ INSERT INTO `app` (`idAnagrafica`, `idPlanimetria`, `idProdotto`) VALUES
 (1, 1, 3),
 (1, 1, 4),
 (1, 1, 9),
+(1, 1, 25),
+(1, 1, 26),
+(1, 1, 27),
 (2, 3, 5),
 (2, 3, 6),
 (2, 3, 7),
 (2, 3, 8),
-(2, 3, 10);
+(2, 3, 10),
+(2, 3, 21),
+(2, 3, 22),
+(2, 3, 23),
+(2, 3, 24);
 
 -- --------------------------------------------------------
 
@@ -149,17 +156,19 @@ CREATE TABLE `d_q` (
 
 CREATE TABLE `planimetrie` (
   `id` int(11) NOT NULL,
-  `path_img` tinytext NOT NULL
+  `path_img` tinytext NOT NULL,
+  `width` float NOT NULL,
+  `height` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `planimetrie`
 --
 
-INSERT INTO `planimetrie` (`id`, `path_img`) VALUES
-(1, 'img/planimetrie/download.png'),
-(2, 'img/planimetrie/checojon-scaled.png'),
-(3, 'img/planimetrie/planimetrie-case.jpg');
+INSERT INTO `planimetrie` (`id`, `path_img`, `width`, `height`) VALUES
+(1, 'img/planimetrie/download.png', 532, 392),
+(2, 'img/planimetrie/checojon-scaled.png', 532, 392),
+(3, 'img/planimetrie/planimetrie-case.jpg', 952, 692);
 
 -- --------------------------------------------------------
 
@@ -190,7 +199,29 @@ INSERT INTO `prodotti` (`id`, `pos_x`, `pos_y`, `idProdImg`) VALUES
 (9, 145, 234, 1),
 (10, 100, 100, 2),
 (11, 187, 190, 3),
-(12, 289, 598, 2);
+(12, 289, 598, 2),
+(13, 478.5, 345, 3),
+(14, 289.5, 334, 3),
+(15, 291.931, 485.406, 2),
+(16, 367, 326, 2),
+(17, 548.5, 465, 3),
+(18, 295.384, 342.609, 1),
+(19, 743, 244, 3),
+(20, 506, 127, 3),
+(21, 926.003, 106.323, 2),
+(22, 926.003, 106.323, 1),
+(23, 25.5, 308, 2),
+(24, 457.5, 23, 1),
+(25, 390, 294, 2),
+(26, 283, 191, 1),
+(27, 447, 29, 1),
+(28, 137, 303, 1),
+(29, 162, 261, 1),
+(30, 177, 284, 1),
+(31, 304.925, 249.185, 2),
+(32, 348, 483, 2),
+(33, 182.5, 242, 2),
+(34, 199.606, 344.723, 3);
 
 -- --------------------------------------------------------
 
@@ -209,8 +240,8 @@ CREATE TABLE `prodotti_img` (
 --
 
 INSERT INTO `prodotti_img` (`id`, `path_img`, `nome_prodotto`) VALUES
-(1, 'img/prodotti/estintore.png', 'estintore'),
-(2, 'img/prodotti/sedia.png', 'sedia'),
+(1, 'img/prodotti/estintore_click.png', 'estintore'),
+(2, 'img/prodotti/idrante.png', 'idrante'),
 (3, 'img/prodotti/tavolo.png', 'tavolo');
 
 -- --------------------------------------------------------
@@ -434,7 +465,7 @@ ALTER TABLE `planimetrie`
 -- AUTO_INCREMENT per la tabella `prodotti`
 --
 ALTER TABLE `prodotti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT per la tabella `prodotti_img`

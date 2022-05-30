@@ -1,29 +1,31 @@
 <?php
+session_start();
 require_once("../php/connessione.php");
-$idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
-if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
-  $selectAna = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
-                FROM anagrafica WHERE id = :id";
-  $pre = $pdo->prepare($selectAna);
-  $pre->bindParam(':id', $idAnagrafica, PDO::PARAM_INT);
-  $pre->execute();
-  while($row = $pre->fetch(PDO::FETCH_ASSOC)){
-    $arrayAna = [
-      'nomeAzienda' => $row['nome'],
-      'indirizzo' => $row['indirizzo'],
-      'cap' => $row['CAP'],
-      'citta' => $row['citta'],
-      'provincia' => $row['provincia'],
-      'telefono1' => $row['telefono1'],
-      'email1' => $row['email1'],
-      'rp' => $row['rif_personale'],
-      'telefono2' => $row['telefono2'],
-      'cellulare' => $row['cellulare'],
-      'email2' => $row['email2'],
-      'na' => $row['noteAziendali'],
-      'nc' => $row['noteCliente']
-    ];
-  }
+if(isset($_SESSION['session_id'])){
+  $idAnagrafica=isset($_GET['id_ana']) ? $_GET['id_ana'] : '';
+  if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
+    $selectAna = "SELECT nome, indirizzo, CAP, citta, provincia, telefono1, email1, rif_personale, telefono2, cellulare, email2, noteAziendali, noteCliente
+                  FROM anagrafica WHERE id = :id";
+    $pre = $pdo->prepare($selectAna);
+    $pre->bindParam(':id', $idAnagrafica, PDO::PARAM_INT);
+    $pre->execute();
+    while($row = $pre->fetch(PDO::FETCH_ASSOC)){
+      $arrayAna = [
+        'nomeAzienda' => $row['nome'],
+        'indirizzo' => $row['indirizzo'],
+        'cap' => $row['CAP'],
+        'citta' => $row['citta'],
+        'provincia' => $row['provincia'],
+        'telefono1' => $row['telefono1'],
+        'email1' => $row['email1'],
+        'rp' => $row['rif_personale'],
+        'telefono2' => $row['telefono2'],
+        'cellulare' => $row['cellulare'],
+        'email2' => $row['email2'],
+        'na' => $row['noteAziendali'],
+        'nc' => $row['noteCliente']
+      ];
+    }
 
  ?>
 <html>
@@ -72,7 +74,7 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
             <div class="collapse navbar-collapse header" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Anagrafica</a>
+                        <a class="nav-link" href="lista-anagrafica.php">Anagrafica</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Revisione</a>
@@ -478,5 +480,8 @@ if($idAnagrafica !== '' || $idAnagrafica !== "undefined"){
 
 </html>
 <?php
+  }
+} else {
+  include_once('404.html');
 }
  ?>

@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once("../php/connessione.php");
+if(isset($_SESSION['session_id'])){
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +55,7 @@
                     </li>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-outline-danger">Logout</button>
+                <button type="button" class="btn btn-outline-danger" onclick="window.location.href='../php/login/logout.php'">Logout</button>
             </div>
         </div>
     </nav>
@@ -214,3 +219,8 @@
 </script>
 
 </html>
+<?php
+} else {
+  include_once('404.html');
+}
+ ?>

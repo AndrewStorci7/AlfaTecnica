@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once('../php/connessione.php');
+if(isset($_SESSION['session_id'])){
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +25,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
-        <a href="#"><img src="img/logo.png" width="55px" height="50px"></a>
+        <a href="#"><img src="../img/logo.png" width="55px" height="50px"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -42,7 +47,7 @@
                 </li>
                 </li>
             </ul>
-            <button type="button" class="btn btn-outline-danger">Logout</button>
+            <button type="button" class="btn btn-outline-danger" onclick="window.location.href='../php/login/logout.php'">Logout</button>
         </div>
     </div>
 </nav>
@@ -503,3 +508,8 @@
           <p class="text-center text-muted ">© 2022 Alfatecnica, Inc</p>
         </footer>
 </html>
+<?php
+} else {
+  include_once('404.html');
+}
+ ?>
