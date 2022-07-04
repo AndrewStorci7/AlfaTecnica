@@ -3,8 +3,10 @@ require_once('connessione.php');
 
 $idProd = isset($_POST['id']) ? $_POST['id'] : 0;
 if(!$idProd == 0){
-  $delete = "DELETE FROM prodotti WHERE id = " . $idProd;
-  $res = $pdo->query($delete);
+  $delete = "DELETE FROM prodotti WHERE id = :id";
+  $res = $pdo->prepare($delete);
+  $res->bindParam(":id", $idProd, PDO::PARAM_STR);
+  $res->execute();
   if($res)
     echo 1;
   else
