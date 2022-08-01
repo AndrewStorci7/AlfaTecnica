@@ -18,7 +18,7 @@ if($risultato){
 } else {
   $array = [
     "dati" => 'Nessun dato trovato',
-    "err" => 'La query non ha resituito nessun dato'
+    "err" => 'La query non ha restituito nessun dato'
   ];
 }
 echo json_encode($array);

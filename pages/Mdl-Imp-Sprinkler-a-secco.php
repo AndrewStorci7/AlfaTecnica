@@ -315,7 +315,7 @@
                                     <center>8</center>
                                 </th>
                                 <td style="text-align: left;">
-                                    Tipologia di manutenzione/intevento
+                                    Tipologia di manutenzione/intervento
                                     <div class="form-group" style="margin-top: 10px;">
                                         <label for="exampleFormControlTextarea1"></label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
@@ -959,7 +959,7 @@
                                     <center>31</center>
                                 </th>
                                 <td style="text-align: left;">
-                                    Controllare intervento della campana iodraulica
+                                    Controllare intervento della campana idraulica
                                 </td>
                                 <td style="text-align: center; ">
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons ">
